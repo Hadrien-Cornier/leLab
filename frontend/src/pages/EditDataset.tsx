@@ -51,6 +51,7 @@ const EditDataset = () => {
   const episodeParam = searchParams.get("episode");
   const episodeIndex = episodeParam === null ? null : Number(episodeParam);
   const selectedSource = datasets.find((d) => d.repo_id === repoId)?.source;
+  const selectedIsLocal = selectedSource === "local" || selectedSource === "both";
 
   const { data, loading, error } = useEpisodes(repoId);
   const {
@@ -126,15 +127,17 @@ const EditDataset = () => {
                 </SelectContent>
               </Select>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setMergeOpen(true)}
-              className="h-9 gap-1.5 border-gray-800 bg-gray-950 text-xs text-gray-300 hover:bg-gray-900"
-            >
-              <Merge className="h-3.5 w-3.5" />
-              Merge
-            </Button>
+            {repoId && selectedIsLocal && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setMergeOpen(true)}
+                className="h-9 gap-1.5 border-gray-800 bg-gray-950 text-xs text-gray-300 hover:bg-gray-900"
+              >
+                <Merge className="h-3.5 w-3.5" />
+                Merge
+              </Button>
+            )}
             {/* Picking a dataset now lands here rather than on /upload, so the
                 upload + delete flow hangs off the page you browse from. */}
             {repoId && (
@@ -228,12 +231,15 @@ const EditDataset = () => {
           </>
         )}
       </div>
-      <MergeDatasetsDialog
-        datasets={datasets}
-        open={mergeOpen}
-        onOpenChange={setMergeOpen}
-        onMerge={handleMerge}
-      />
+      {repoId && selectedIsLocal && (
+        <MergeDatasetsDialog
+          datasets={datasets}
+          selectedRepoId={repoId}
+          open={mergeOpen}
+          onOpenChange={setMergeOpen}
+          onMerge={handleMerge}
+        />
+      )}
     </div>
   );
 };

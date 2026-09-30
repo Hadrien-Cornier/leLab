@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import { DatasetItem } from "@/lib/replayApi";
 
 interface MergeDatasetsDialogProps {
   datasets: DatasetItem[];
+  selectedRepoId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onMerge: (sourceRepoIds: string[], outputName: string) => Promise<void>;
@@ -24,18 +25,23 @@ interface MergeDatasetsDialogProps {
 
 export default function MergeDatasetsDialog({
   datasets,
+  selectedRepoId,
   open,
   onOpenChange,
   onMerge,
 }: MergeDatasetsDialogProps) {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>([selectedRepoId]);
   const [outputName, setOutputName] = useState("");
   const [merging, setMerging] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const localDatasets = useMemo(
-    () => datasets.filter((dataset) => dataset.source === "local" || dataset.source === "both"),
-    [datasets],
+    () =>
+      datasets.filter(
+        (dataset) =>
+          dataset.repo_id !== selectedRepoId && (dataset.source === "local" || dataset.source === "both"),
+      ),
+    [datasets, selectedRepoId],
   );
   const canMerge = selected.length >= 2 && /^[A-Za-z0-9._-]+$/.test(outputName) && !merging;
 
@@ -45,11 +51,20 @@ export default function MergeDatasetsDialog({
   };
 
   const reset = () => {
-    setSelected([]);
+    setSelected([selectedRepoId]);
     setOutputName("");
     setMerging(false);
     setError(null);
   };
+
+  useEffect(() => {
+    if (open) {
+      setSelected([selectedRepoId]);
+      setOutputName("");
+      setMerging(false);
+      setError(null);
+    }
+  }, [open, selectedRepoId]);
 
   const handleOpenChange = (nextOpen: boolean) => {
     if (!merging && !nextOpen) reset();
@@ -76,13 +91,15 @@ export default function MergeDatasetsDialog({
         <DialogHeader>
           <DialogTitle className="text-white">Merge local datasets</DialogTitle>
           <DialogDescription>
-            Select two or more local datasets. Their source files stay unchanged; the merged dataset is saved locally.
+            <code>{selectedRepoId}</code> is included. Select at least one more local dataset. Their source files stay
+            unchanged; the merged dataset is saved locally.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
           <Label className="text-gray-300">Source datasets</Label>
           <div className="max-h-52 space-y-2 overflow-y-auto rounded-md border border-gray-700 p-3">
+            <p className="text-sm text-gray-200">{selectedRepoId}</p>
             {localDatasets.map((dataset) => (
               <label key={dataset.repo_id} className="flex cursor-pointer items-center gap-3 text-sm text-gray-200">
                 <Checkbox
@@ -94,7 +111,7 @@ export default function MergeDatasetsDialog({
               </label>
             ))}
           </div>
-          <p className="text-xs text-gray-500">Select at least two datasets.</p>
+          <p className="text-xs text-gray-500">Select at least one additional dataset.</p>
 
           <div className="space-y-2">
             <Label htmlFor="merged-dataset-name" className="text-gray-300">
