@@ -943,9 +943,8 @@ const Calibration = () => {
                     <p className="text-slate-200 font-medium">Cameras are off</p>
                     <p className="text-sm text-slate-400 max-w-md mx-auto">
                       Turn cameras on to scan for connected devices and preview
-                      them. The browser may briefly open a camera to read device
-                      labels, and configured cameras stay active while previews
-                      are visible; your browser will ask for camera permission.
+                      them. LeLab opens the same cameras used for recording.
+                      Configured cameras stay active while previews are visible.
                       Nothing is recorded.
                     </p>
                     {cameras.length > 0 && (

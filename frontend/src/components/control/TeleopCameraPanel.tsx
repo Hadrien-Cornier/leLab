@@ -5,12 +5,12 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useRobots } from "@/hooks/useRobots";
 import CameraFeed from "./CameraFeed";
+import { useAvailableCameras } from "@/hooks/useAvailableCameras";
+import { resolveCameraBinding } from "@/lib/cameraBinding";
 
 /**
  * Optional live camera panel for the teleoperation page. Off by default so we
- * never call getUserMedia just by landing on the page (same consent pattern as
- * the calibration camera toggle). Teleoperation opens no cv2 cameras, so the
- * browser can stream them directly while the arm runs.
+ * camera captures start only after enabling the panel.
  *
  * A strict mirror of the selected robot's configured cameras: one live feed per
  * camera on the robot record (e.g. "wrist_cam", "webcam"), stacked vertically.
@@ -19,20 +19,22 @@ import CameraFeed from "./CameraFeed";
  */
 const TeleopCameraPanel: React.FC = () => {
   const [enabled, setEnabled] = useState(false);
-  // Bumped by the retry button to remount the feeds (a fresh getUserMedia
-  // attempt) — useful if a camera was unplugged and reconnected.
+  // A fresh stream request after reconnecting a camera.
   const [reloadKey, setReloadKey] = useState(0);
   const { selectedRecord, isLoading: robotsLoading } = useRobots();
+  const { cameras: availableCameras, refresh } = useAvailableCameras({ enabled });
 
-  // Feeds come solely from the robot's configured cameras; each carries a stored
-  // browser device_id we stream directly. A configured camera whose device is
-  // currently absent still shows (name + failed-preview placeholder), so the
-  // user can tell it's expected but not detected.
+  // Show exactly the configured native recording sources.
   const configured = selectedRecord?.cameras ?? [];
   const feeds = configured.map((c) => ({
     key: c.id,
     name: c.name,
     deviceId: c.device_id,
+    rotation: c.rotation ?? 0,
+    camera: {
+      ...c,
+      camera_index: resolveCameraBinding(c, availableCameras)?.index ?? c.camera_index,
+    },
   }));
 
   return (
@@ -45,7 +47,7 @@ const TeleopCameraPanel: React.FC = () => {
               type="button"
               variant="ghost"
               size="icon"
-              onClick={() => setReloadKey((k) => k + 1)}
+              onClick={() => { void refresh(); setReloadKey((k) => k + 1); }}
               className="h-9 w-9 text-gray-400 hover:text-white flex-shrink-0"
               title="Retry camera feeds (e.g. after reconnecting a camera)"
               aria-label="Retry camera feeds"
@@ -72,6 +74,8 @@ const TeleopCameraPanel: React.FC = () => {
                 key={`${feed.key}:${reloadKey}`}
                 deviceId={feed.deviceId}
                 label={feed.name}
+                rotation={feed.rotation}
+                camera={feed.camera}
               />
             ))}
           </div>

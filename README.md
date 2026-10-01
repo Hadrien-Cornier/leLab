@@ -24,6 +24,14 @@ Grab the one-liner from the [LeLab Space](https://huggingface.co/spaces/lerobot/
 
 A page will automatically open in your browser and you are ready to go.
 
+### Local camera previews
+
+Local previews use the same camera driver, physical camera, resolution, and rotation as recording. They work without a browser camera ID or browser camera permission. On macOS, select each camera in Configuration to save its native device identity. A disconnected saved camera raises an error instead of silently switching to another camera.
+
+Preview tabs share one capture per camera. Starting recording, teleoperation, or inference releases idle previews before the robot session opens its cameras. Close other camera applications if a preview cannot start.
+
+If the USB port opens but no motors reply, check that arm's separate motor power supply and the cable from its controller to the first motor. USB discovery alone does not show that the motors are powered. Recording keeps the motor checks and logs the full error for diagnosis.
+
 ## What you can do
 
 <div align="center">

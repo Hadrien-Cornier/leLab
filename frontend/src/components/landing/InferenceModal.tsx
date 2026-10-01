@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AlertTriangle, CheckCircle, Loader2, Play, VideoOff } from "lucide-react";
+import { AlertTriangle, CheckCircle, Loader2, Play } from "lucide-react";
 import { RobotRecord } from "@/hooks/useRobots";
 import { useApi } from "@/contexts/ApiContext";
 import { useToast } from "@/hooks/use-toast";
@@ -32,32 +32,15 @@ import {
 import { startInference } from "@/lib/inferenceApi";
 import CheckpointDropdown from "@/components/jobs/CheckpointDropdown";
 import { useAvailableCameras } from "@/hooks/useAvailableCameras";
-import { useCameraStream } from "@/hooks/useCameraStream";
+import NativeCameraPreview from "@/components/control/NativeCameraPreview";
+import type { NativePreviewCamera } from "@/lib/cameraPreview";
+import { resolveCameraBinding } from "@/lib/cameraBinding";
 
-const CameraThumbnail: React.FC<{ deviceId: string; paused: boolean }> = ({
-  deviceId,
+const CameraThumbnail: React.FC<{ camera: NativePreviewCamera; paused: boolean }> = ({
+  camera,
   paused,
 }) => {
-  const { videoRef, hasError } = useCameraStream(deviceId, paused);
-  if (paused || hasError || !deviceId) {
-    return (
-      <div className="w-32 h-24 bg-gray-800 rounded border border-gray-700 flex flex-col items-center justify-center">
-        <VideoOff className="w-5 h-5 text-gray-500 mb-1" />
-        <span className="text-[10px] text-gray-500">
-          {paused ? "Released" : "No preview"}
-        </span>
-      </div>
-    );
-  }
-  return (
-    <video
-      ref={videoRef}
-      autoPlay
-      muted
-      playsInline
-      className="w-32 h-24 object-cover rounded border border-gray-700 bg-black"
-    />
-  );
+  return <NativeCameraPreview camera={camera} paused={paused} className="w-32 h-24 rounded border border-gray-700" />;
 };
 
 interface Props {
@@ -156,8 +139,7 @@ const InferenceModal: React.FC<Props> = ({
   }, [open, baseUrl, fetchWithHeaders, jobId, selectedStep]);
 
   // If the selected robot has cameras whose names match a policy-expected
-  // camera, auto-bind them. Prefer matching by browser device_id (stable
-  // across cv2 index drift); fall back to the saved camera_index.
+  // camera, bind its native identity at the current recording index.
   useEffect(() => {
     if (!policyConfig) return;
     const robotCams = robot?.cameras ?? [];
@@ -171,10 +153,7 @@ const InferenceModal: React.FC<Props> = ({
           (c) => c.name.toLowerCase() === policyName.toLowerCase(),
         );
         if (!robotCam) continue;
-        const live =
-          (robotCam.device_id &&
-            availableCameras.find((c) => c.deviceId === robotCam.device_id)) ||
-          availableCameras.find((c) => c.index === robotCam.camera_index);
+        const live = resolveCameraBinding(robotCam, availableCameras);
         if (live) {
           next[policyName] = live.index;
           changed = true;
@@ -212,17 +191,22 @@ const InferenceModal: React.FC<Props> = ({
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 300));
     const cameraDict: Record<string, {
-      type: string; camera_index?: number; width: number; height: number; fps?: number;
+      type: string; camera_index?: number; backend_device_id?: string; width: number; height: number; fps?: number; rotation?: 0 | 180;
     }> = {};
     for (const [name, dims] of Object.entries(policyConfig.image_features)) {
       const idx = cameraBindings[name];
       if (idx == null) continue;
+      const configuredCamera = robot.cameras.find((camera) =>
+        resolveCameraBinding(camera, availableCameras)?.index === idx,
+      );
       cameraDict[name] = {
         type: "opencv",
         camera_index: idx,
+        backend_device_id: availableCameras.find((camera) => camera.index === idx)?.backendDeviceId,
         width: dims.width,
         height: dims.height,
         fps: DEFAULT_FPS,
+        rotation: configuredCamera?.rotation ?? 0,
       };
     }
     try {
@@ -391,6 +375,9 @@ const InferenceModal: React.FC<Props> = ({
                     value != null
                       ? availableCameras.find((c) => c.index === value)
                       : undefined;
+                  const configuredCamera = robot?.cameras.find((camera) =>
+                    resolveCameraBinding(camera, availableCameras)?.index === value,
+                  );
                   return (
                     <div key={name} className="flex items-center gap-3">
                       <div className="flex-1">
@@ -425,7 +412,19 @@ const InferenceModal: React.FC<Props> = ({
                           )}
                         </SelectContent>
                       </Select>
-                      <CameraThumbnail deviceId={bound?.deviceId ?? ""} paused={submitting} />
+                      <CameraThumbnail
+                        camera={{
+                          camera_index: bound?.index,
+                          backend_device_id: bound?.backendDeviceId,
+                          width: configuredCamera?.width ?? dims.width,
+                          height: configuredCamera?.height ?? dims.height,
+                          fps: configuredCamera?.fps ?? DEFAULT_FPS,
+                          fourcc: configuredCamera?.fourcc,
+                          backend: configuredCamera?.backend,
+                          rotation: configuredCamera?.rotation ?? 0,
+                        }}
+                        paused={submitting}
+                      />
                     </div>
                   );
                 })}

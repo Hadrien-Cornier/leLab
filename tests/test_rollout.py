@@ -205,6 +205,27 @@ def test_format_cameras_arg_handles_multiple_cameras() -> None:
     assert "wrist: {" in result
 
 
+@pytest.mark.parametrize(("rotation", "expected"), [(180, 180), (270, -90)])
+def test_format_cameras_arg_translates_rotation_for_lerobot(rotation: int, expected: int) -> None:
+    from lelab.rollout import _format_cameras_arg
+
+    result = _format_cameras_arg(
+        {
+            "front": {"type": "opencv", "camera_index": 0},
+            "wrist": {"type": "opencv", "camera_index": 1, "rotation": rotation},
+        }
+    )
+    assert "front: {type: opencv, index_or_path: 0}" in result
+    assert f"wrist: {{type: opencv, index_or_path: 1, rotation: {expected}}}" in result
+
+
+def test_format_cameras_arg_rejects_unsupported_rotation() -> None:
+    from lelab.rollout import _format_cameras_arg
+
+    with pytest.raises(ValueError, match="camera rotation"):
+        _format_cameras_arg({"wrist": {"type": "opencv", "camera_index": 1, "rotation": 45}})
+
+
 def test_handle_stop_inference_when_idle_returns_409() -> None:
     from lelab.rollout import handle_stop_inference
 
@@ -270,6 +291,8 @@ def test_handle_start_inference_closes_log_when_popen_fails(monkeypatch, tmp_pat
     not leaked — on Windows a leaked handle also keeps the log file locked."""
     from lelab import rollout
 
+    # Keep the real log-file lifecycle inside the test's temporary directory.
+    monkeypatch.setattr(rollout.Path, "home", lambda: tmp_path)
     monkeypatch.setattr(rollout, "setup_follower_calibration_file", lambda cfg: "robot_a")
     monkeypatch.setattr(rollout, "_resolve_policy_path", lambda ref: str(tmp_path / "model"))
 

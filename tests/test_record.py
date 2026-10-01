@@ -92,6 +92,60 @@ def test_build_camera_configs_passes_fourcc_through() -> None:
     assert configs["cam"].fourcc == "MJPG"
 
 
+@pytest.mark.parametrize(
+    ("rotation", "expected"),
+    [(0, 0), (90, 90), (180, 180), (270, -90)],
+)
+def test_build_camera_configs_rotates_only_configured_camera(rotation: int, expected: int) -> None:
+    from lelab.record import _build_camera_configs
+    from lerobot.cameras.configs import Cv2Backends, Cv2Rotation
+
+    cameras = {
+        "front": {"type": "opencv", "camera_index": 0},
+        "wrist": {"type": "opencv", "camera_index": 1, "rotation": rotation},
+    }
+    configs = _build_camera_configs(cameras, Cv2Backends.ANY)
+
+    assert configs["front"].rotation == Cv2Rotation.NO_ROTATION
+    assert configs["wrist"].rotation == Cv2Rotation(expected)
+
+
+@pytest.mark.parametrize("rotation", [45, -180, "180", True])
+def test_build_camera_configs_rejects_invalid_rotation(rotation) -> None:
+    from lelab.record import _build_camera_configs
+    from lerobot.cameras.configs import Cv2Backends
+
+    cameras = {"wrist": {"type": "opencv", "camera_index": 1, "rotation": rotation}}
+    with pytest.raises(ValueError, match="camera rotation"):
+        _build_camera_configs(cameras, Cv2Backends.ANY)
+
+
+def test_record_camera_processes_wrist_frame_before_recording_and_preview() -> None:
+    """OpenCVCamera uses this processed frame for robot observations and read_latest()."""
+    import numpy as np
+
+    from lelab.record import _build_camera_configs
+    from lerobot.cameras.configs import Cv2Backends
+    from lerobot.cameras.opencv import OpenCVCamera
+
+    configs = _build_camera_configs(
+        {"wrist": {"type": "opencv", "camera_index": 1, "width": 2, "height": 2, "rotation": 180}},
+        Cv2Backends.ANY,
+    )
+    camera = OpenCVCamera(configs["wrist"])
+    raw_bgr = np.array(
+        [
+            [[0, 0, 10], [0, 0, 20]],
+            [[0, 0, 30], [0, 0, 40]],
+        ],
+        dtype=np.uint8,
+    )
+
+    rotated_rgb = camera._postprocess_image(raw_bgr)
+
+    assert rotated_rgb[:, :, 0].tolist() == [[40, 30], [20, 10]]
+
+
 def test_build_camera_configs_explicit_backend_overrides_default() -> None:
     from lelab.record import _build_camera_configs
     from lerobot.cameras.configs import Cv2Backends

@@ -37,6 +37,8 @@ from typing import Any
 
 from pydantic import BaseModel
 
+from .camera_preview import resolve_camera_sources
+from .camera_rotation import camera_rotation
 from .utils.config import setup_follower_calibration_file
 
 logger = logging.getLogger(__name__)
@@ -188,14 +190,19 @@ def _rollout_inference_args(policy_path: str) -> list[str]:
 
 
 def _format_cameras_arg(cameras: dict[str, dict[str, Any]]) -> str:
-    """Convert {name: {type, camera_index, width, height, fps}} into
+    """Convert {name: {type, camera_index, width, height, fps, rotation}} into
     lerobot's CLI dict syntax. The frontend key `camera_index` is
-    remapped to lerobot's `index_or_path`."""
+    remapped to lerobot's `index_or_path`, and UI rotation 270 to -90."""
     parts = []
-    for name, cfg in cameras.items():
+    for name, cfg in resolve_camera_sources(cameras).items():
         remapped = {
-            ("index_or_path" if k == "camera_index" else k): v for k, v in cfg.items() if v is not None
+            ("index_or_path" if k == "camera_index" else k): v
+            for k, v in cfg.items()
+            if v is not None
+            and k in {"type", "camera_index", "width", "height", "fps", "rotation", "backend", "fourcc"}
         }
+        if "rotation" in cfg:
+            remapped["rotation"] = camera_rotation(cfg["rotation"]).value
         body = ", ".join(f"{k}: {v}" for k, v in remapped.items())
         parts.append(f"{name}: {{{body}}}")
     return "{" + ", ".join(parts) + "}"

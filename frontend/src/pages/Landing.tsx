@@ -171,9 +171,11 @@ const Landing = () => {
         acc[cam.name] = {
           type: cam.type,
           camera_index: cam.camera_index,
+          backend_device_id: cam.backend_device_id,
           width: cam.width,
           height: cam.height,
           fps: cam.fps,
+          rotation: cam.rotation ?? 0,
           ...(cam.fourcc ? { fourcc: cam.fourcc } : {}),
           ...(cam.backend ? { backend: cam.backend } : {}),
         };
@@ -184,9 +186,11 @@ const Landing = () => {
         {
           type: string;
           camera_index?: number;
+          backend_device_id?: string;
           width: number;
           height: number;
           fps?: number;
+          rotation?: 0 | 180;
           fourcc?: string;
           backend?: string;
         }

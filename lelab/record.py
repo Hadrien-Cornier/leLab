@@ -31,8 +31,11 @@ from lerobot.robots.so_follower import SO101FollowerConfig
 from lerobot.scripts.lerobot_record import RecordConfig
 from lerobot.teleoperators.so_leader import SO101LeaderConfig
 
+from .camera_preview import resolve_camera_sources
+from .camera_rotation import camera_rotation
 from .dataset_repair import DatasetRepairError, repair_local_dataset
 from .utils.config import setup_calibration_files, with_lelab_tag
+from .utils.connection_errors import explain_recording_error
 from .utils.devices import safe_disconnect_device
 
 logger = logging.getLogger(__name__)
@@ -115,14 +118,14 @@ def _platform_backend():
 def _build_camera_configs(cameras: dict, default_backend) -> dict:
     """Convert the frontend camera dict into OpenCVCameraConfig objects.
 
-    `backend` (a Cv2Backends name) and `fourcc` (a 4-char code) are optional per
-    camera; when omitted they fall back to `default_backend` and auto-detect.
+    `backend` (a Cv2Backends name), `fourcc` (a 4-char code), and `rotation`
+    (clockwise quarter-turn degrees) are optional per camera.
     """
     from lerobot.cameras.configs import Cv2Backends
     from lerobot.cameras.opencv import OpenCVCameraConfig
 
     camera_configs: dict = {}
-    for camera_name, camera_data in cameras.items():
+    for camera_name, camera_data in resolve_camera_sources(cameras).items():
         if camera_data.get("type") != "opencv":
             logger.warning(
                 f"⚠️ CAMERA CONFIG: Unsupported camera type '{camera_data.get('type')}' for {camera_name}"
@@ -140,12 +143,13 @@ def _build_camera_configs(cameras: dict, default_backend) -> dict:
             width=camera_data.get("width"),
             height=camera_data.get("height"),
             fourcc=fourcc,
+            rotation=camera_rotation(camera_data.get("rotation")),
         )
         logger.info(
             f"✅ CAMERA CONFIG: {camera_name} -> OpenCVCameraConfig("
             f"index={camera_data.get('camera_index')}, backend={backend.name}, "
             f"{camera_data.get('width')}x{camera_data.get('height')}@{camera_data.get('fps')}fps, "
-            f"fourcc={fourcc})"
+            f"fourcc={fourcc}, rotation={camera_configs[camera_name].rotation.value})"
         )
     return camera_configs
 
@@ -327,7 +331,7 @@ def handle_start_recording(request: RecordingRequest) -> dict[str, Any]:
                 # count: the frontend still offers them for upload.
                 last_recording_info = {
                     "success": False,
-                    "error": str(e),
+                    "error": explain_recording_error(e, request.leader_port, request.follower_port),
                     "dataset_repo_id": request.dataset_repo_id,
                     "saved_episodes": saved_episodes,
                 }

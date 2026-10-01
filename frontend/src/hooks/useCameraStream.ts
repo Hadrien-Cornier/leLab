@@ -23,9 +23,27 @@ const BASE_DELAY_MS = 300;
 // won't fix themselves on a retimed retry — those recover via `devicechange`.
 const TRANSIENT_ERRORS = new Set(["NotReadableError", "AbortError"]);
 
+export function cameraStreamErrorMessage(error: unknown): string {
+  const name = error instanceof Error ? error.name : "";
+  switch (name) {
+    case "NotAllowedError":
+    case "SecurityError":
+      return "Camera access is blocked. Allow camera access for this site in your browser and Mac settings.";
+    case "OverconstrainedError":
+    case "NotFoundError":
+      return "This saved camera is not available in this browser. Choose the camera again in Calibration.";
+    case "NotReadableError":
+    case "AbortError":
+      return "Camera could not start. Close other camera apps or previews, then retry.";
+    default:
+      return "Camera preview could not start. Reconnect the camera, then retry.";
+  }
+}
+
 export function useCameraStream(deviceId: string, paused: boolean) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   // Bumping this forces the stream effect to re-run (a clean retry).
   const [retryKey, setRetryKey] = useState(0);
   // Track the error state for the devicechange handler without re-binding it.
@@ -40,20 +58,29 @@ export function useCameraStream(deviceId: string, paused: boolean) {
     const onDeviceChange = () => {
       if (hasErrorRef.current) setRetryKey((k) => k + 1);
     };
-    navigator.mediaDevices.addEventListener("devicechange", onDeviceChange);
+    navigator.mediaDevices?.addEventListener("devicechange", onDeviceChange);
     return () =>
-      navigator.mediaDevices.removeEventListener("devicechange", onDeviceChange);
+      navigator.mediaDevices?.removeEventListener("devicechange", onDeviceChange);
   }, []);
 
   useEffect(() => {
     if (paused || !deviceId) {
-      if (!deviceId) setHasError(true);
+      if (!deviceId && !paused) {
+        setHasError(true);
+        setErrorMessage("Choose a camera in Calibration to enable its preview.");
+      }
+      return;
+    }
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setHasError(true);
+      setErrorMessage("This browser does not provide camera access. Open LeLab in Chrome and allow camera access.");
       return;
     }
     let cancelled = false;
     let stream: MediaStream | null = null;
     let retryTimer: ReturnType<typeof setTimeout> | null = null;
     setHasError(false);
+    setErrorMessage(null);
 
     const start = async (attempt: number) => {
       try {
@@ -70,7 +97,7 @@ export function useCameraStream(deviceId: string, paused: boolean) {
         }
       } catch (err) {
         if (cancelled) return;
-        const name = err instanceof DOMException ? err.name : "";
+        const name = err instanceof Error ? err.name : "";
         if (attempt < MAX_RETRIES && TRANSIENT_ERRORS.has(name)) {
           // Exponential backoff: 300ms, 600ms, 1200ms, ...
           retryTimer = setTimeout(
@@ -79,6 +106,7 @@ export function useCameraStream(deviceId: string, paused: boolean) {
           );
         } else {
           setHasError(true);
+          setErrorMessage(cameraStreamErrorMessage(err));
         }
       }
     };
@@ -91,5 +119,5 @@ export function useCameraStream(deviceId: string, paused: boolean) {
     };
   }, [deviceId, paused, retryKey]);
 
-  return { videoRef, hasError };
+  return { videoRef, hasError, errorMessage, retry: () => setRetryKey((k) => k + 1) };
 }

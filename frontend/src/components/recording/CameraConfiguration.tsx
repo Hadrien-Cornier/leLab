@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { NumberInput } from "@/components/ui/number-input";
-import { Camera, Plus, X, VideoOff, RefreshCw, ChevronRight } from "lucide-react";
+import { Camera, Plus, X, RefreshCw, ChevronRight } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -18,7 +18,9 @@ import {
 } from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 import { useAvailableCameras } from "@/hooks/useAvailableCameras";
-import { useCameraStream } from "@/hooks/useCameraStream";
+import NativeCameraPreview from "@/components/control/NativeCameraPreview";
+import { resolveCameraBinding } from "@/lib/cameraBinding";
+import { useApi } from "@/contexts/ApiContext";
 
 // Sentinels distinguish "leave unset" (auto-detect / platform default) from an
 // explicit choice. Radix Select disallows an empty-string value, so we map these
@@ -42,10 +44,13 @@ export interface CameraConfig {
   name: string;
   type: string;
   camera_index?: number; // cv2 index — what the recorder opens
-  device_id: string; // Browser deviceId matched to the cv2 index by AVFoundation localizedName
+  device_id: string; // Legacy browser-only preview identity.
+  backend_device_id?: string; // Native physical identity, stable across browsers and index changes.
+  device_name?: string;
   width: number;
   height: number;
   fps?: number;
+  rotation?: 0 | 180; // Applied to previews and captured frames.
   fourcc?: string; // 4-char OpenCV pixel format (e.g. "MJPG"); undefined = auto-detect
   backend?: string; // Cv2Backends name (e.g. "AVFOUNDATION"); undefined = platform default
 }
@@ -67,6 +72,7 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
   readOnly = false,
 }) => {
   const { toast } = useToast();
+  const { baseUrl, fetchWithHeaders } = useApi();
 
   const {
     cameras: availableCameras,
@@ -76,18 +82,14 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
   const [selectedCameraIndex, setSelectedCameraIndex] = useState<string>("");
   const [cameraName, setCameraName] = useState("");
 
-  // cv2's AVFoundation order is uniqueID-sorted, so plugging/unplugging a
-  // device between sessions shifts indices. The browser device_id stays
-  // stable per-origin, so use it to refresh each seeded camera's
-  // camera_index — otherwise the recorder opens the wrong physical device
-  // and the dropdown's "already added" check guards a stale index.
+  // Preserve physical identity even when hotplug changes native index order.
+  // Old profiles keep their recording index until explicitly reselected.
   useEffect(() => {
     if (availableCameras.length === 0 || cameras.length === 0) return;
     let changed = false;
     const refreshed = cameras.map((cam) => {
-      if (!cam.device_id) return cam;
-      const match = availableCameras.find((m) => m.deviceId === cam.device_id);
-      if (match && match.index !== cam.camera_index) {
+      const match = resolveCameraBinding(cam, availableCameras);
+      if (cam.backend_device_id && match && match.index !== cam.camera_index) {
         changed = true;
         return { ...cam, camera_index: match.index };
       }
@@ -147,9 +149,12 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
       type: "opencv",
       camera_index: selectedCamera.index,
       device_id: selectedCamera.deviceId,
+      backend_device_id: selectedCamera.backendDeviceId,
+      device_name: selectedCamera.name,
       width: 640,
       height: 480,
       fps: 30,
+      rotation: 0,
     };
 
     onCamerasChange([...cameras, newCamera]);
@@ -185,7 +190,8 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
   const [streamsPaused, setStreamsPaused] = useState(false);
   const releaseAllCameraStreams = useCallback(() => {
     setStreamsPaused(true);
-  }, []);
+    void fetchWithHeaders(`${baseUrl}/camera-preview/stop`, { method: "POST" }).catch((error) => console.warn("Could not release previews:", error));
+  }, [baseUrl, fetchWithHeaders]);
 
   useEffect(() => {
     if (releaseStreamsRef) {
@@ -309,6 +315,8 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
                 camera={camera}
                 paused={streamsPaused}
                 readOnly={readOnly}
+                availableCameras={availableCameras}
+                usedCameraIndices={cameras.filter((other) => other.id !== camera.id).map((other) => resolveCameraBinding(other, availableCameras)?.index)}
                 onRemove={() => removeCamera(camera.id)}
                 onUpdate={(updates) => updateCamera(camera.id, updates)}
               />
@@ -335,6 +343,8 @@ interface CameraPreviewProps {
   camera: CameraConfig;
   paused: boolean;
   readOnly: boolean;
+  availableCameras: ReturnType<typeof useAvailableCameras>["cameras"];
+  usedCameraIndices: Array<number | undefined>;
   onRemove: () => void;
   onUpdate: (updates: Partial<CameraConfig>) => void;
 }
@@ -343,41 +353,43 @@ const CameraPreview: React.FC<CameraPreviewProps> = ({
   camera,
   paused,
   readOnly,
+  availableCameras,
+  usedCameraIndices,
   onRemove,
   onUpdate,
 }) => {
-  const { videoRef, hasError: streamError } = useCameraStream(
-    camera.device_id,
-    paused
-  );
-  const showVideo = !paused && camera.device_id && !streamError;
   return (
     <div className="bg-gray-900 rounded-lg border border-gray-700 overflow-hidden">
       <div className="aspect-[4/3] bg-gray-800 relative">
-        {showVideo ? (
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center">
-            <VideoOff className="w-8 h-8 text-gray-500 mb-2" />
-            <span className="text-gray-500 text-sm">
-              {paused
-                ? "Preview paused"
-                : camera.device_id
-                ? "Preview failed"
-                : "No browser match"}
-            </span>
-          </div>
-        )}
+        <NativeCameraPreview camera={camera} paused={paused} />
       </div>
 
       {/* Camera Info */}
       <div className="p-3 space-y-2">
+        {!readOnly && (
+          <div className="space-y-1">
+            <Label className="text-xs text-gray-400">Physical camera</Label>
+            <Select
+              value={camera.backend_device_id ? resolveCameraBinding(camera, availableCameras)?.index.toString() ?? "" : ""}
+              onValueChange={(value) => {
+                const selected = availableCameras.find((device) => device.index === Number(value));
+                if (selected) onUpdate({
+                  camera_index: selected.index,
+                  backend_device_id: selected.backendDeviceId,
+                  device_name: selected.name,
+                  device_id: "",
+                });
+              }}
+            >
+              <SelectTrigger className="bg-gray-800 border-gray-700 text-white"><SelectValue placeholder="Select connected camera" /></SelectTrigger>
+              <SelectContent className="bg-gray-800 border-gray-700">
+                {availableCameras.map((device) => <SelectItem key={device.index} value={String(device.index)} className="text-white" disabled={!device.available || usedCameraIndices.includes(device.index)}>
+                  {device.name} (camera {device.index})
+                </SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
         <div className="flex items-center justify-between">
           <h5 className="font-medium text-white truncate">{camera.name}</h5>
           {!readOnly && (
@@ -440,6 +452,21 @@ const CameraPreview: React.FC<CameraPreviewProps> = ({
                   min="10"
                   max="60"
                 />
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-16">Rotation:</span>
+                <Select
+                  value={String(camera.rotation ?? 0)}
+                  onValueChange={(value) => onUpdate({ rotation: Number(value) as 0 | 180 })}
+                >
+                  <SelectTrigger className="bg-gray-800 border-gray-700 text-white text-xs h-6 px-2 w-28">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 border-gray-700">
+                    <SelectItem value="0" className="text-white hover:bg-gray-700 text-xs">0°</SelectItem>
+                    <SelectItem value="180" className="text-white hover:bg-gray-700 text-xs">180°</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-16">FOURCC:</span>

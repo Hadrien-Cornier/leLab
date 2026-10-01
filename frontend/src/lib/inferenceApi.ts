@@ -8,9 +8,11 @@ export interface StartInferenceRequest {
   cameras: Record<string, {
     type: string;
     camera_index?: number;
+    backend_device_id?: string;
     width: number;
     height: number;
     fps?: number;
+    rotation?: 0 | 180;
   }>;
   duration_s: number;
 }

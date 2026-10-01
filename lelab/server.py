@@ -25,8 +25,9 @@ import threading
 import time
 from pathlib import Path
 from typing import Any, Literal
+from urllib.parse import urlsplit
 
-from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -41,6 +42,7 @@ from . import datasets as dataset_browser, record as _record
 
 # Import our custom calibration functionality
 from .calibrate import CalibrationRequest, calibration_manager
+from .camera_preview import CameraPreviewError, CameraPreviewManager, preview_config, set_device_provider
 from .episode_media import DatasetNotFoundError, EpisodeNotFoundError
 from .jobs import (
     JobAlreadyRunningError,
@@ -293,6 +295,30 @@ job_registry.set_on_change(manager.notify_jobs_changed)
 job_registry.set_on_progress(manager.notify_job_progress)
 
 
+def _cameras_owned_by_session() -> bool:
+    from . import rollout, teleoperate
+
+    # Keep ownership through teardown, even after the active flag is cleared.
+    return bool(
+        _record.recording_active
+        or _record.current_robot is not None
+        or (_record.recording_thread is not None and _record.recording_thread.is_alive())
+        # Current teleoperation config has no cameras. Its control panel may
+        # preview cameras independently. If a future teleop config adds camera
+        # handles, those handles remain the sole owner until teardown ends.
+        or (teleoperate.current_robot is not None and bool(teleoperate.current_robot.cameras))
+        or rollout.inference_active
+    )
+
+
+camera_previews = CameraPreviewManager(busy=_cameras_owned_by_session)
+
+
+@app.exception_handler(CameraPreviewError)
+async def camera_preview_error(request: Request, exc: CameraPreviewError):
+    return JSONResponse(status_code=exc.status_code, content={"detail": str(exc)})
+
+
 @app.get("/get-configs")
 def get_configs():
     # Get all available calibration configs
@@ -305,7 +331,8 @@ def get_configs():
 @app.post("/move-arm")
 def teleoperate_arm(request: TeleoperateRequest):
     """Start teleoperation of the robot arm"""
-    return handle_start_teleoperation(request, manager)
+    with camera_previews.session_start():
+        return handle_start_teleoperation(request, manager)
 
 
 @app.post("/stop-teleoperation")
@@ -328,7 +355,8 @@ def get_joint_positions():
 
 @app.post("/start-inference")
 def start_inference(request: InferenceRequest):
-    result = handle_start_inference(request)
+    with camera_previews.session_start():
+        result = handle_start_inference(request)
     if not result.get("success"):
         raise HTTPException(
             status_code=result.get("status_code", 500),
@@ -502,7 +530,8 @@ async def websocket_endpoint(websocket: WebSocket):
 @app.post("/start-recording")
 def start_recording(request: RecordingRequest):
     """Start a dataset recording session"""
-    return handle_start_recording(request)
+    with camera_previews.session_start():
+        return handle_start_recording(request)
 
 
 @app.post("/stop-recording")
@@ -531,6 +560,95 @@ def camera_feed(cam_key: str):
         _record.camera_feed_frames(cam_key),
         media_type="multipart/x-mixed-replace; boundary=frame",
     )
+
+
+def _require_local_camera_request(request: Request) -> None:
+    """Allow the local LeLab UI and CLI, reject camera access from other sites."""
+    trusted_ui = False
+    for header in ("origin", "referer"):
+        value = request.headers.get(header)
+        if not value:
+            continue
+        try:
+            source = urlsplit(value)
+            allowed = (
+                source.scheme == "http"
+                and source.hostname in {"127.0.0.1", "localhost", "::1"}
+                and source.port in {8000, 8080}
+            )
+        except ValueError:
+            allowed = False
+        if not allowed:
+            raise HTTPException(
+                status_code=403, detail="Camera previews are available only in the local LeLab UI."
+            )
+        trusted_ui = True
+    if request.headers.get("sec-fetch-site") == "cross-site" and not trusted_ui:
+        # Headerless local CLI probes remain useful. Browsers always send the
+        # origin/referrer or fetch metadata for foreign subresource requests.
+        raise HTTPException(
+            status_code=403, detail="Camera previews are available only in the local LeLab UI."
+        )
+
+
+@app.get("/camera-preview")
+def camera_preview(
+    request: Request,
+    index: int = Query(ge=0),
+    device_id: str | None = None,
+    width: int | None = Query(default=None, gt=0, le=8192),
+    height: int | None = Query(default=None, gt=0, le=8192),
+    fps: int | None = Query(default=None, gt=0, le=240),
+    rotation: int = 0,
+    backend: str | None = None,
+    fourcc: str | None = None,
+):
+    """Preview the exact native camera used by recording, without browser access."""
+    _require_local_camera_request(request)
+    try:
+        camera_config = preview_config(index, device_id, width, height, fps, rotation, backend, fourcc)
+        lease = camera_previews.acquire(camera_config)
+    except CameraPreviewError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=str(exc)) from exc
+    except (ValueError, KeyError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    async def frames():
+        try:
+            while not await request.is_disconnected():
+                try:
+                    image = await asyncio.to_thread(lease.jpeg)
+                except (TimeoutError, RuntimeError) as exc:
+                    logger.warning("Camera preview stopped: %s", exc)
+                    break
+                if image is None:
+                    break
+                yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + image + b"\r\n"
+                await asyncio.sleep(1 / 15)
+        finally:
+            # Shield release from response cancellation. The lock prevents a
+            # recording request from opening cameras before release completes.
+            await asyncio.shield(asyncio.to_thread(lease.release))
+
+    from starlette.background import BackgroundTask
+
+    return StreamingResponse(
+        frames(),
+        media_type="multipart/x-mixed-replace; boundary=frame",
+        headers={"Cache-Control": "no-store", "X-Camera-Index": str(camera_config.index_or_path)},
+        background=BackgroundTask(lease.release),
+    )
+
+
+@app.post("/camera-preview/stop")
+def stop_camera_previews(request: Request):
+    """Release idle preview handles before handing cameras to a robot session."""
+    _require_local_camera_request(request)
+    try:
+        camera_previews.stop()
+    except CameraPreviewError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=str(exc)) from exc
+    return {"success": True}
 
 
 @app.post("/recording-exit-early")
@@ -1153,14 +1271,11 @@ def _linux_cameras() -> list[dict[str, Any]]:
 def get_available_cameras():
     """List cameras with the same index ordering cv2 will use to record.
 
-    Each platform enumerates in the order its cv2 backend indexes devices, and
-    pairs each index with the device's real name so the frontend can match it to
-    the browser's ``MediaDeviceInfo.label`` for the live preview:
+    Native previews use this exact index and, on macOS, the device's stable
+    unique ID. Identical camera names do not need browser device matching:
       - macOS: AVFoundation ``localizedName`` (via a PyObjC subprocess);
       - Windows: DirectShow FriendlyName (via pygrabber; recording pinned DSHOW);
       - Linux: the v4l2 device name from sysfs.
-    Without real names the frontend can't match a camera and shows "No browser
-    match" with an empty device_id (issues #12, #16).
     """
     try:
         import platform
@@ -1186,6 +1301,9 @@ def get_available_cameras():
     except Exception as e:
         logger.error(f"Error detecting cameras: {e}")
         return {"status": "error", "message": str(e), "cameras": []}
+
+
+set_device_provider(lambda: get_available_cameras()["cameras"])
 
 
 RobotSideLiteral = Literal["leader", "follower"]
@@ -1342,6 +1460,7 @@ def startup_event():
 async def shutdown_event():
     """Clean up resources when FastAPI shuts down"""
     logger.info("🔄 FastAPI shutting down, cleaning up...")
+    camera_previews.stop()
 
     # Stop any active recording - handled by recording module cleanup
 
