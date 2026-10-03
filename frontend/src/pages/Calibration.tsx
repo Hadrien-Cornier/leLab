@@ -472,6 +472,60 @@ const Calibration = () => {
     [robotName, deviceType, robot, baseUrl, fetchWithHeaders]
   );
 
+  // Calibration files already on disk. Linking one to this robot skips
+  // calibrating again.
+  const [existingConfigs, setExistingConfigs] = useState<string[]>([]);
+  useEffect(() => {
+    let cancelled = false;
+    fetchWithHeaders(`${baseUrl}/calibration-configs/${deviceType}`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (cancelled) return;
+        const files: string[] = d.success
+          ? d.configs.map((c: { filename: string }) => c.filename)
+          : [];
+        setExistingConfigs(files.sort());
+      })
+      .catch(() => !cancelled && setExistingConfigs([]));
+    return () => {
+      cancelled = true;
+    };
+    // Re-list when a calibration ends, so a newly written file shows up.
+  }, [deviceType, baseUrl, fetchWithHeaders, calibrationStatus.calibration_active]);
+
+  const configField = deviceType === "robot" ? "follower_config" : "leader_config";
+
+  const linkExistingConfig = async (filename: string) => {
+    if (!robotName) return;
+    const portField = deviceType === "robot" ? "follower_port" : "leader_port";
+    try {
+      const res = await fetchWithHeaders(
+        `${baseUrl}/robots/${encodeURIComponent(robotName)}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            [configField]: filename,
+            ...(port ? { [portField]: port } : {}),
+          }),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok || !data.robot) throw new Error(data.message || `HTTP ${res.status}`);
+      setRobot(data.robot);
+      toast({
+        title: "Calibration linked",
+        description: `${deviceType === "robot" ? "Follower" : "Leader"} now uses ${filename}.`,
+      });
+    } catch (e) {
+      toast({
+        title: "Could not link calibration",
+        description: e instanceof Error ? e.message : String(e),
+        variant: "destructive",
+      });
+    }
+  };
+
   const handlePortDetected = (detectedPort: string) => {
     setPort(detectedPort);
     persistPort(detectedPort);
@@ -638,6 +692,32 @@ const Calibration = () => {
                     Cancel Calibration
                   </Button>
                 )}
+                {!calibrationStatus.calibration_active &&
+                  existingConfigs.length > 0 && (
+                    <Select
+                      value={
+                        robot && existingConfigs.includes(robot[configField])
+                          ? robot[configField]
+                          : ""
+                      }
+                      onValueChange={linkExistingConfig}
+                      disabled={!robotName}
+                    >
+                      <SelectTrigger
+                        aria-label="Use an existing calibration file"
+                        className="bg-slate-700 border-slate-600 text-white rounded-md"
+                      >
+                        <SelectValue placeholder="…or use an existing calibration file" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-slate-800 border-slate-700 text-white">
+                        {existingConfigs.map((file) => (
+                          <SelectItem key={file} value={file} className="hover:bg-slate-700">
+                            {file.replace(/\.json$/, "")}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
               </div>
 
               {robot && (
@@ -657,6 +737,9 @@ const Calibration = () => {
                       }
                     >
                       Leader (Teleoperator)
+                      {robot.leader_config && (
+                        <span className="text-slate-500"> · {robot.leader_config}</span>
+                      )}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
@@ -673,6 +756,9 @@ const Calibration = () => {
                       }
                     >
                       Follower (Robot)
+                      {robot.follower_config && (
+                        <span className="text-slate-500"> · {robot.follower_config}</span>
+                      )}
                     </span>
                   </div>
                 </div>
