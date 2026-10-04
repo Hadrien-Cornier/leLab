@@ -1,0 +1,211 @@
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+objc[50458]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x118d903a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x121a6c3a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[50458]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x118d903f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x121a6c3f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+INFO 2026-10-04 17:25:56 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 17:25:56 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 17:25:56 gs/video.py:193 Using video codec: hevc
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 813.26 examples/s]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[warn]: Instance 1: AQ mode 2 is unsupported with source dimensions (32 / 32), setting AQ mode to 0
+Svt[warn]: Instance 1: Restoration Filtering is unsupported with source dimensions (32 / 32), disabling Restoration Filtering
+Svt[warn]: TPL is disabled for aq_mode 0
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 42
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 32 / 32 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / CQP Assignment 					: CQP / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 0 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 2024.47 examples/s]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[warn]: Instance 1: AQ mode 2 is unsupported with source dimensions (32 / 32), setting AQ mode to 0
+Svt[warn]: Instance 1: Restoration Filtering is unsupported with source dimensions (32 / 32), disabling Restoration Filtering
+Svt[warn]: TPL is disabled for aq_mode 0
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 42
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 32 / 32 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / CQP Assignment 					: CQP / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 0 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 1795.97 examples/s]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[warn]: Instance 1: AQ mode 2 is unsupported with source dimensions (32 / 32), setting AQ mode to 0
+Svt[warn]: Instance 1: Restoration Filtering is unsupported with source dimensions (32 / 32), disabling Restoration Filtering
+Svt[warn]: TPL is disabled for aq_mode 0
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 42
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 32 / 32 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / CQP Assignment 					: CQP / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 0 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+INFO 2026-10-04 17:25:56 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 17:25:56 gs/video.py:193 Using video codec: hevc
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 2182.49 examples/s]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[warn]: Instance 1: AQ mode 2 is unsupported with source dimensions (32 / 32), setting AQ mode to 0
+Svt[warn]: Instance 1: Restoration Filtering is unsupported with source dimensions (32 / 32), disabling Restoration Filtering
+Svt[warn]: TPL is disabled for aq_mode 0
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 42
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 32 / 32 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / CQP Assignment 					: CQP / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 0 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 2044.01 examples/s]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[warn]: Instance 1: AQ mode 2 is unsupported with source dimensions (32 / 32), setting AQ mode to 0
+Svt[warn]: Instance 1: Restoration Filtering is unsupported with source dimensions (32 / 32), disabling Restoration Filtering
+Svt[warn]: TPL is disabled for aq_mode 0
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 42
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 32 / 32 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / CQP Assignment 					: CQP / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 0 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+INFO 2026-10-04 17:25:56 t_repair.py:278 repro/interrupted has no usable episode index (Provided directory does not contain any parquet file: /private/var/folders/8p/st8ljpz15750xhwk4jn4jtyw0000gr/T/lelab-repair-chunks-tuhqiy6i/repro/interrupted/meta/episodes) — rebuilding it from disk
+[swscaler @ 0xb2db84000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb30868000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb30878000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb30888000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb30898000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb2db84000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb30868000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb30878000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb30888000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb30898000] No accelerated colorspace conversion found from yuv420p to rgb24.
+INFO 2026-10-04 17:25:57 t_repair.py:317 Recovered 2 episode(s) from an interrupted recording of repro/interrupted; 1 episode(s) were lost because the recording was cut short
+INFO 2026-10-04 17:25:57 /server.py:1344 🔄 FastAPI shutting down, cleaning up...
+INFO 2026-10-04 17:25:57 /server.py:1350 ✅ Cleanup completed
+[swscaler @ 0xb2dd54000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb2dd64000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0xb2dd74000] No accelerated colorspace conversion found from yuv420p to rgb24.
+{
+  "temporary_cache": "/var/folders/8p/st8ljpz15750xhwk4jn4jtyw0000gr/T/lelab-repair-chunks-tuhqiy6i",
+  "api_result": {
+    "success": true,
+    "dataset_repo_id": "repro/interrupted",
+    "num_episodes": 2,
+    "single_task": "Unknown task",
+    "fps": 10,
+    "features": [
+      "action",
+      "observation.state",
+      "observation.images.cam",
+      "timestamp",
+      "frame_index",
+      "episode_index",
+      "index",
+      "task_index"
+    ],
+    "total_frames": 10,
+    "robot_type": null
+  },
+  "message": "Repair triggered by POST /dataset-info",
+  "episodes": 2,
+  "frames": 10,
+  "video_chunk_indices": [
+    0,
+    1
+  ],
+  "repaired_image_mean": [
+    [
+      [
+        0.2862745098039391
+      ]
+    ],
+    [
+      [
+        0.2862745098039391
+      ]
+    ],
+    [
+      [
+        0.2862745098039391
+      ]
+    ]
+  ],
+  "reference_image_mean": [
+    [
+      [
+        0.29411764815449715
+      ]
+    ],
+    [
+      [
+        0.29411764815449715
+      ]
+    ],
+    [
+      [
+        0.29411764815449715
+      ]
+    ]
+  ],
+  "matches_reference": true,
+  "last_frame_image_mean": 0.46274515986442566
+}
