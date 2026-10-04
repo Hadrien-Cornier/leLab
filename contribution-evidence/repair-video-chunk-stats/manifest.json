@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-04",
+  "repository": "https://github.com/huggingface/leLab",
+  "pull_request": "https://github.com/huggingface/leLab/pull/122",
+  "upstream_commit": "454b19fabe6b4e4fbff69025944fb57e410daba7",
+  "fix_commit": "591fd85c99a7bc39fd5f37e777d356d00db3dca1",
+  "lerobot_dependency": {
+    "tag": "v0.6.0",
+    "commit": "30da8e687a6dfc617fcd94afc367ac7071c376ce"
+  },
+  "python": "3.13.9",
+  "reproduction": {
+    "trigger": "POST /dataset-info",
+    "data": "Three synthetic episodes through LeRobot writer, one video file per chunk. Delete final video and episode index in a temporary cache.",
+    "http_status": 200,
+    "api_success": true,
+    "retained_episodes": 2,
+    "retained_frames": 10,
+    "reference_mean": 0.29411764815449715,
+    "before_mean": 0.46274509803924013,
+    "after_mean": 0.2862745098039391,
+    "lossy_video_tolerance": 0.01,
+    "files": [
+      "reproduce_api.py",
+      "api-before.log",
+      "api-after.log"
+    ]
+  },
+  "tests": {
+    "command": "DYLD_LIBRARY_PATH=/opt/homebrew/opt/ffmpeg@8/lib PATH=/opt/homebrew/opt/ffmpeg@8/bin:$PATH PYTHONPATH=<fixed_checkout> <compatible_venv>/bin/python -m pytest tests -q --tb=short",
+    "passed": 271,
+    "warnings": 11,
+    "elapsed_s": 12.57,
+    "log": "pytest-final.log"
+  },
+  "quality": {
+    "command": "PATH=<Python_3.12_bin>:/opt/homebrew/bin:$PATH <compatible_venv>/bin/pre-commit run --all-files",
+    "result": "All hooks passed",
+    "log": "precommit-final.log"
+  },
+  "historical_repair_test_followup": {
+    "default_library_environment": {
+      "passed": 12,
+      "failed": 1,
+      "cause": "TorchCodec cannot locate FFmpeg libavutil.60.dylib after successful repair"
+    },
+    "ffmpeg8_library_environment": {
+      "passed": 13,
+      "failed": 0,
+      "elapsed_s": 10.8
+    },
+    "conclusion": "The six historical failures do not reproduce with the correct FFmpeg libraries."
+  },
+  "independent_review": {
+    "agent": "/root/lelab_camera_bug",
+    "production_findings": [],
+    "checked": [
+      "Pinned LeRobot video_path contract",
+      "Index types from _chunk_file",
+      "Multiple camera identity",
+      "Regression fidelity"
+    ],
+    "recommendations_applied": [
+      "Exact count equality",
+      "Compare all statistic fields",
+      "State AV1 tolerance reason"
+    ]
+  },
+  "initial_remote_checks": {
+    "passed": 0,
+    "failed": 0,
+    "reported_check_runs": 0,
+    "snapshot": "Initial gh-axi pr checks snapshot after creation. Remote validation is not established."
+  },
+  "limits": [
+    "Synthetic data only",
+    "No physical arm or existing dataset access",
+    "No paid compute",
+    "No maintainer approval or merge"
+  ]
+}
