@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AlertTriangle, CheckCircle, Loader2, Play, VideoOff } from "lucide-react";
+import { AlertTriangle, CheckCircle, Loader2, Play } from "lucide-react";
 import { RobotRecord } from "@/hooks/useRobots";
 import { useApi } from "@/contexts/ApiContext";
 import { useToast } from "@/hooks/use-toast";
@@ -32,33 +32,17 @@ import {
 import { startInference } from "@/lib/inferenceApi";
 import CheckpointDropdown from "@/components/jobs/CheckpointDropdown";
 import { useAvailableCameras } from "@/hooks/useAvailableCameras";
-import { useCameraStream } from "@/hooks/useCameraStream";
-
-const CameraThumbnail: React.FC<{ deviceId: string; paused: boolean }> = ({
-  deviceId,
-  paused,
-}) => {
-  const { videoRef, hasError } = useCameraStream(deviceId, paused);
-  if (paused || hasError || !deviceId) {
-    return (
-      <div className="w-32 h-24 bg-gray-800 rounded border border-gray-700 flex flex-col items-center justify-center">
-        <VideoOff className="w-5 h-5 text-gray-500 mb-1" />
-        <span className="text-[10px] text-gray-500">
-          {paused ? "Released" : "No preview"}
-        </span>
-      </div>
-    );
-  }
-  return (
-    <video
-      ref={videoRef}
-      autoPlay
-      muted
-      playsInline
-      className="w-32 h-24 object-cover rounded border border-gray-700 bg-black"
-    />
-  );
-};
+import BrowserCameraPreview from "@/components/control/BrowserCameraPreview";
+import CameraRotationSelect from "@/components/control/CameraRotationSelect";
+import {
+  CameraRequest,
+  cameraConfigurationError,
+  CameraRotation,
+  physicalCameraKey,
+  rotatedDimensions,
+  rotationForCamera,
+  serializeCamera,
+} from "@/lib/cameraConfig";
 
 interface Props {
   open: boolean;
@@ -94,6 +78,11 @@ const InferenceModal: React.FC<Props> = ({
   // Per expected camera name → user-selected physical camera index (or null).
   const [cameraBindings, setCameraBindings] = useState<Record<string, number | null>>({});
   const { cameras: availableCameras } = useAvailableCameras({ enabled: open });
+  const [cameraRotations, setCameraRotations] = useState<Record<string, CameraRotation>>({});
+
+  useEffect(() => {
+    if (open) setCameraRotations({});
+  }, [open, robot?.name]);
 
   // Load checkpoints when modal opens.
   useEffect(() => {
@@ -196,34 +185,41 @@ const InferenceModal: React.FC<Props> = ({
     (name) => cameraBindings[name] != null,
   );
 
+  const cameraError = cameraConfigurationError(robot?.cameras ?? []);
+
   const canStart =
     !!robot &&
     robot.is_clean &&
+    !cameraError &&
     selectedRef != null &&
     !!policyConfig &&
     allCamerasBound &&
     !submitting;
 
   const handleStart = async () => {
-    if (!robot || selectedRef == null || !policyConfig) return;
+    if (!robot || selectedRef == null || !policyConfig || cameraError) return;
     // Setting submitting=true makes every CameraPreview drop its
     // browser stream — required so the rollout subprocess can open the
     // same camera index via OpenCV without colliding on the device.
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 300));
-    const cameraDict: Record<string, {
-      type: string; camera_index?: number; width: number; height: number; fps?: number;
-    }> = {};
+    const cameraDict: Record<string, CameraRequest> = {};
     for (const [name, dims] of Object.entries(policyConfig.image_features)) {
       const idx = cameraBindings[name];
       if (idx == null) continue;
-      cameraDict[name] = {
+      const physical = availableCameras.find((camera) => camera.index === idx)
+        ?? { index: idx, deviceId: "" };
+      const rotation = rotationForCamera(physical, robot.cameras, cameraRotations);
+      // Checkpoint dimensions describe output. The API needs capture dimensions.
+      const capture = rotatedDimensions(dims.width, dims.height, rotation);
+      cameraDict[name] = serializeCamera({
         type: "opencv",
         camera_index: idx,
-        width: dims.width,
-        height: dims.height,
+        width: capture.width,
+        height: capture.height,
+        rotation,
         fps: DEFAULT_FPS,
-      };
+      });
     }
     try {
       await startInference(baseUrl, fetchWithHeaders, {
@@ -362,7 +358,12 @@ const InferenceModal: React.FC<Props> = ({
             <h3 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
               Cameras
             </h3>
-            {policyConfigLoading ? (
+            {cameraError ? (
+              <Alert className="bg-red-900/40 border-red-700 text-red-100">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertDescription>{cameraError} Correct the camera settings in Calibration.</AlertDescription>
+              </Alert>
+            ) : policyConfigLoading ? (
               <div className="flex items-center gap-2 text-sm text-slate-400">
                 <Loader2 className="w-4 h-4 animate-spin" />
                 Reading policy config…
@@ -383,6 +384,7 @@ const InferenceModal: React.FC<Props> = ({
                 <p className="text-xs text-gray-500">
                   Bind a physical camera to each name the policy was trained
                   with. Resolution comes from the checkpoint.
+                  Use the same rotation as the training data.
                 </p>
                 {expectedCameraNames.map((name) => {
                   const dims = policyConfig.image_features[name];
@@ -391,8 +393,10 @@ const InferenceModal: React.FC<Props> = ({
                     value != null
                       ? availableCameras.find((c) => c.index === value)
                       : undefined;
+                  const rotation = bound ? rotationForCamera(bound, robot?.cameras ?? [], cameraRotations) : 0;
+                  const capture = rotatedDimensions(dims.width, dims.height, rotation);
                   return (
-                    <div key={name} className="flex items-center gap-3">
+                    <div key={name} className="flex flex-wrap items-center gap-3">
                       <div className="flex-1">
                         <Label className="text-sm font-medium text-gray-200">
                           {name}
@@ -425,7 +429,23 @@ const InferenceModal: React.FC<Props> = ({
                           )}
                         </SelectContent>
                       </Select>
-                      <CameraThumbnail deviceId={bound?.deviceId ?? ""} paused={submitting} />
+                      <CameraRotationSelect
+                        rotation={rotation}
+                        disabled={!bound || submitting}
+                        onChange={(angle) => {
+                          if (bound) {
+                            setCameraRotations((prev) => ({ ...prev, [physicalCameraKey(bound)]: angle }));
+                          }
+                        }}
+                      />
+                      <BrowserCameraPreview
+                        deviceId={bound?.deviceId ?? ""}
+                        paused={submitting}
+                        rotation={rotation}
+                        width={capture.width}
+                        height={capture.height}
+                        className="w-32 rounded border border-gray-700"
+                      />
                     </div>
                   );
                 })}

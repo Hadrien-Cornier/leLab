@@ -15,7 +15,7 @@ import { useHfAuth } from "@/contexts/HfAuthContext";
 import { useRobots } from "@/hooks/useRobots";
 import { useDatasets } from "@/hooks/useDatasets";
 import { DatasetItem } from "@/lib/replayApi";
-import { CameraConfig } from "@/components/recording/CameraConfiguration";
+import { CameraConfig, cameraConfigurationError, serializeCameras } from "@/lib/cameraConfig";
 import { isHostedSpace } from "@/lib/isHostedSpace";
 
 const ON_SPACE = isHostedSpace();
@@ -128,6 +128,11 @@ const Landing = () => {
       return;
     }
     const robot = selectedRecord;
+    const cameraError = cameraConfigurationError(cameras);
+    if (cameraError) {
+      toast({ title: "Invalid camera rotation", description: `${cameraError} Correct the camera settings in Calibration.`, variant: "destructive" });
+      return;
+    }
     if (!robot.is_clean) {
       toast({
         title: "Robot not ready",
@@ -166,32 +171,7 @@ const Landing = () => {
       });
     }
 
-    const cameraDict = cameras.reduce(
-      (acc, cam) => {
-        acc[cam.name] = {
-          type: cam.type,
-          camera_index: cam.camera_index,
-          width: cam.width,
-          height: cam.height,
-          fps: cam.fps,
-          ...(cam.fourcc ? { fourcc: cam.fourcc } : {}),
-          ...(cam.backend ? { backend: cam.backend } : {}),
-        };
-        return acc;
-      },
-      {} as Record<
-        string,
-        {
-          type: string;
-          camera_index?: number;
-          width: number;
-          height: number;
-          fps?: number;
-          fourcc?: string;
-          backend?: string;
-        }
-      >,
-    );
+    const cameraDict = serializeCameras(cameras);
 
     const recordingConfig = {
       leader_port: robot.leader_port,
