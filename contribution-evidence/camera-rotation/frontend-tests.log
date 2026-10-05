@@ -1,0 +1,14 @@
+
+> vite_react_shadcn_ts@0.0.0 test
+> vitest run
+
+[vite:react-swc] We recommend switching to `@vitejs/plugin-react` for improved performance as no swc plugins are used. More information at https://vite.dev/rolldown
+
+ RUN  v4.1.0 /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-pr/frontend
+
+
+ Test Files  8 passed (8)
+      Tests  34 passed (34)
+   Start at  20:35:08
+   Duration  3.03s (transform 2.14s, setup 0ms, import 3.49s, tests 384ms, environment 12.95s)
+

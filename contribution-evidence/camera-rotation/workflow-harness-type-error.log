@@ -1,0 +1,47 @@
+objc[1813]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1020243a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10c5203a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[1813]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1020243f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10c5203f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+INFO 2026-10-04 20:24:23 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 20:24:23 s/config.py:420 Saved robot record repro_0: {'name': 'repro_0', 'leader_port': '', 'follower_port': '', 'leader_config': '', 'follower_config': '', 'cameras': [{'id': 'wrist', 'name': 'wrist', 'device_id': 'supplied-wrist', 'type': 'opencv', 'camera_index': 1, 'width': 96, 'height': 64, 'fps': 10, 'rotation': 0}]}
+INFO 2026-10-04 20:24:23 b/record.py:283 Starting recording for dataset: repro/rotation_0_20261004_202423
+INFO 2026-10-04 20:24:23 b/record.py:284 Task: rotate a supplied source
+INFO 2026-10-04 20:24:23 b/record.py:170 ✅ CAMERA CONFIG: front -> OpenCVCameraConfig(index=0, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:24:23 b/record.py:170 ✅ CAMERA CONFIG: wrist -> OpenCVCameraConfig(index=1, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:24:23 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 20:24:23 gs/video.py:193 Using video codec: hevc
+INFO 2026-10-04 20:24:23 b/record.py:310 Recording session started: dataset=repro/rotation_0_20261004_202423 task='rotate a supplied source' episodes=1
+INFO 2026-10-04 20:24:23 b/record.py:320 Waiting for camera resources to be released (cameras: ['front', 'wrist'])
+INFO 2026-10-04 20:24:25 b/record.py:761 🔧 ROBOT CONNECTION: Attempting to connect robot...
+INFO 2026-10-04 20:24:25 b/record.py:763 ✅ ROBOT CONNECTION: Robot bus connected successfully
+INFO 2026-10-04 20:24:25 b/record.py:770 🔧 TELEOP CONNECTION: Attempting to connect teleoperator...
+INFO 2026-10-04 20:24:25 b/record.py:772 ✅ TELEOP CONNECTION: Teleoperator bus connected successfully
+INFO 2026-10-04 20:24:25 b/record.py:779 Writing calibration to motors...
+INFO 2026-10-04 20:24:25 b/record.py:785 🔧 CAMERA CONNECTION: Connecting cameras...
+ERROR 2026-10-04 20:24:25 b/record.py:790 ❌ CAMERA CONNECTION: Failed to connect cameras: isinstance() arg 2 must be a type, a tuple of types, or a union
+ERROR 2026-10-04 20:24:25 b/record.py:791 💡 Make sure frontend camera streams are released before recording
+WARNING 2026-10-04 20:24:25 s/devices.py:25 Error disconnecting device during recording cleanup: isinstance() arg 2 must be a type, a tuple of types, or a union
+INFO 2026-10-04 20:24:25 s/devices.py:41 Force-closed serial port after disconnect failure
+WARNING 2026-10-04 20:24:25 s/devices.py:51 Failed to disconnect camera after device cleanup failure: isinstance() arg 2 must be a type, a tuple of types, or a union
+WARNING 2026-10-04 20:24:25 s/devices.py:51 Failed to disconnect camera after device cleanup failure: isinstance() arg 2 must be a type, a tuple of types, or a union
+ERROR 2026-10-04 20:24:25 b/record.py:342 Recording session failed: isinstance() arg 2 must be a type, a tuple of types, or a union
+Traceback (most recent call last):
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-pr/lelab/record.py", line 326, in recording_worker
+    dataset = record_with_web_events(record_config, recording_events)
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-pr/lelab/record.py", line 787, in record_with_web_events
+    cam.connect()
+    ~~~~~~~~~~~^^
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/lerobot/utils/decorators.py", line 37, in wrapper
+    if self.is_connected:
+       ^^^^^^^^^^^^^^^^^
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/lerobot/cameras/opencv/camera_opencv.py", line 134, in is_connected
+    return isinstance(self.videocapture, cv2.VideoCapture) and self.videocapture.isOpened()
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: isinstance() arg 2 must be a type, a tuple of types, or a union
+
+INFO 2026-10-04 20:24:25 b/record.py:365 Recording session ended
+Traceback (most recent call last):
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-evidence/workflow.py", line 115, in <module>
+    assert record.last_recording_info["success"], record.last_recording_info
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+AssertionError: {'success': False, 'error': 'isinstance() arg 2 must be a type, a tuple of types, or a union', 'dataset_repo_id': 'repro/rotation_0_20261004_202423', 'saved_episodes': 0}

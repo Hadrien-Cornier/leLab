@@ -1,0 +1,5 @@
+src/hooks/useOnboardingProgress.ts(67,18): error TS2339: Property 'source' does not exist on type 'never'.
+src/hooks/useOnboardingProgress.ts(67,42): error TS2339: Property 'source' does not exist on type 'never'.
+src/hooks/useOnboardingProgress.ts(70,18): error TS2339: Property 'checkpoint_count' does not exist on type 'never'.
+src/hooks/useOnboardingProgress.ts(70,44): error TS2339: Property 'state' does not exist on type 'never'.
+src/lib/meshLoaders.ts(64,26): error TS18047: 'result' is possibly 'null'.

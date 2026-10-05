@@ -1,0 +1,374 @@
+objc[2254]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x10616c3a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x1106543a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2254]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x10616c3f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x1106543f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+INFO 2026-10-04 20:26:06 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 20:26:06 s/config.py:420 Saved robot record repro_0: {'name': 'repro_0', 'leader_port': '', 'follower_port': '', 'leader_config': '', 'follower_config': '', 'cameras': [{'id': 'wrist', 'name': 'wrist', 'device_id': 'supplied-wrist', 'type': 'opencv', 'camera_index': 1, 'width': 96, 'height': 64, 'fps': 10, 'rotation': 0}]}
+INFO 2026-10-04 20:26:06 b/record.py:283 Starting recording for dataset: repro/rotation_0_20261004_202606
+INFO 2026-10-04 20:26:06 b/record.py:284 Task: rotate a supplied source
+INFO 2026-10-04 20:26:06 b/record.py:170 ✅ CAMERA CONFIG: front -> OpenCVCameraConfig(index=0, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:26:06 b/record.py:170 ✅ CAMERA CONFIG: wrist -> OpenCVCameraConfig(index=1, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:26:06 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 20:26:06 gs/video.py:193 Using video codec: hevc
+INFO 2026-10-04 20:26:06 b/record.py:310 Recording session started: dataset=repro/rotation_0_20261004_202606 task='rotate a supplied source' episodes=1
+INFO 2026-10-04 20:26:06 b/record.py:320 Waiting for camera resources to be released (cameras: ['front', 'wrist'])
+INFO 2026-10-04 20:26:08 b/record.py:761 🔧 ROBOT CONNECTION: Attempting to connect robot...
+INFO 2026-10-04 20:26:08 b/record.py:763 ✅ ROBOT CONNECTION: Robot bus connected successfully
+INFO 2026-10-04 20:26:08 b/record.py:770 🔧 TELEOP CONNECTION: Attempting to connect teleoperator...
+INFO 2026-10-04 20:26:08 b/record.py:772 ✅ TELEOP CONNECTION: Teleoperator bus connected successfully
+INFO 2026-10-04 20:26:08 b/record.py:779 Writing calibration to motors...
+INFO 2026-10-04 20:26:08 b/record.py:785 🔧 CAMERA CONNECTION: Connecting cameras...
+INFO 2026-10-04 20:26:09 a_opencv.py:179 OpenCVCamera(0) connected.
+INFO 2026-10-04 20:26:10 a_opencv.py:179 OpenCVCamera(1) connected.
+INFO 2026-10-04 20:26:10 b/record.py:788 ✅ CAMERA CONNECTION: Cameras connected successfully
+INFO 2026-10-04 20:26:10 b/record.py:794 Configuring motors...
+INFO 2026-10-04 20:26:10 b/record.py:798 ✅ Devices ready
+INFO 2026-10-04 20:26:10 b/record.py:853 Starting recording phase for episode 1
+INFO 2026-10-04 20:26:10 b/record.py:854 Events state at start of recording phase: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False}
+INFO 2026-10-04 20:26:10 ls/utils.py:143 Recording episode 1
+INFO 2026-10-04 20:26:10 b/record.py:863 Recording phase - calling record_loop with events: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': False}
+INFO 2026-10-04 20:26:11 b/record.py:867 Recording phase completed - events state: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': True}
+INFO 2026-10-04 20:26:11 b/record.py:872 🟡 RECORDING PHASE INTERRUPTED BY EXIT_EARLY - proceeding to save episode
+INFO 2026-10-04 20:26:11 b/record.py:933 💾 Saving episode 1...
+🎬 STATUS CHANGE: Starting recording phase for episode 1/1
+🟡 STATUS CHANGE: Recording phase interrupted by user - episode 1 data collected
+💾 STATUS CHANGE: Saving episode 1
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 683.42 examples/s]
+objc[2299]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1038b83a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10e1703a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2298]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x100d643a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10c5f83a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2298]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x100d643f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10c5f83f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2299]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1038b83f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10e1703f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+INFO 2026-10-04 20:26:18 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 20:26:18 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+Svt[info]: Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+-------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 59
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 59
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 96 / 64 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 2 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 96 / 64 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 2 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+INFO 2026-10-04 20:26:18 b/record.py:936 ✅ Episode 1 saved successfully
+INFO 2026-10-04 20:26:18 ls/utils.py:143 Stop recording
+INFO 2026-10-04 20:26:19 a_opencv.py:601 OpenCVCamera(0) disconnected.
+INFO 2026-10-04 20:26:19 a_opencv.py:601 OpenCVCamera(1) disconnected.
+INFO 2026-10-04 20:26:19 ls/utils.py:143 Exiting
+INFO 2026-10-04 20:26:19 b/record.py:327 Recording completed successfully. Dataset has 1 episodes
+INFO 2026-10-04 20:26:19 b/record.py:365 Recording session ended
+[swscaler @ 0x8475ac000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0x8475a0000] No accelerated colorspace conversion found from yuv420p to rgb24.
+INFO 2026-10-04 20:26:19 s/config.py:420 Saved robot record repro_90: {'name': 'repro_90', 'leader_port': '', 'follower_port': '', 'leader_config': '', 'follower_config': '', 'cameras': [{'id': 'wrist', 'name': 'wrist', 'device_id': 'supplied-wrist', 'type': 'opencv', 'camera_index': 1, 'width': 96, 'height': 64, 'fps': 10, 'rotation': 90}]}
+INFO 2026-10-04 20:26:19 b/record.py:283 Starting recording for dataset: repro/rotation_90_20261004_202619
+INFO 2026-10-04 20:26:19 b/record.py:284 Task: rotate a supplied source
+INFO 2026-10-04 20:26:19 b/record.py:170 ✅ CAMERA CONFIG: front -> OpenCVCameraConfig(index=0, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:26:19 b/record.py:170 ✅ CAMERA CONFIG: wrist -> OpenCVCameraConfig(index=1, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=90)
+INFO 2026-10-04 20:26:19 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 20:26:19 gs/video.py:193 Using video codec: hevc
+INFO 2026-10-04 20:26:19 b/record.py:310 Recording session started: dataset=repro/rotation_90_20261004_202619 task='rotate a supplied source' episodes=1
+INFO 2026-10-04 20:26:19 b/record.py:320 Waiting for camera resources to be released (cameras: ['front', 'wrist'])
+INFO 2026-10-04 20:26:21 b/record.py:761 🔧 ROBOT CONNECTION: Attempting to connect robot...
+INFO 2026-10-04 20:26:21 b/record.py:763 ✅ ROBOT CONNECTION: Robot bus connected successfully
+INFO 2026-10-04 20:26:21 b/record.py:770 🔧 TELEOP CONNECTION: Attempting to connect teleoperator...
+INFO 2026-10-04 20:26:21 b/record.py:772 ✅ TELEOP CONNECTION: Teleoperator bus connected successfully
+INFO 2026-10-04 20:26:21 b/record.py:779 Writing calibration to motors...
+INFO 2026-10-04 20:26:21 b/record.py:785 🔧 CAMERA CONNECTION: Connecting cameras...
+INFO 2026-10-04 20:26:22 a_opencv.py:179 OpenCVCamera(0) connected.
+INFO 2026-10-04 20:26:23 a_opencv.py:179 OpenCVCamera(1) connected.
+INFO 2026-10-04 20:26:23 b/record.py:788 ✅ CAMERA CONNECTION: Cameras connected successfully
+INFO 2026-10-04 20:26:23 b/record.py:794 Configuring motors...
+INFO 2026-10-04 20:26:23 b/record.py:798 ✅ Devices ready
+INFO 2026-10-04 20:26:23 b/record.py:853 Starting recording phase for episode 1
+INFO 2026-10-04 20:26:23 b/record.py:854 Events state at start of recording phase: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False}
+INFO 2026-10-04 20:26:23 ls/utils.py:143 Recording episode 1
+INFO 2026-10-04 20:26:23 b/record.py:863 Recording phase - calling record_loop with events: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': False}
+INFO 2026-10-04 20:26:23 b/record.py:867 Recording phase completed - events state: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': True}
+INFO 2026-10-04 20:26:23 b/record.py:872 🟡 RECORDING PHASE INTERRUPTED BY EXIT_EARLY - proceeding to save episode
+INFO 2026-10-04 20:26:23 b/record.py:933 💾 Saving episode 1...
+✅ STATUS CHANGE: Episode 1 saved successfully
+🏁 STATUS CHANGE: Recording session completed - all episodes finished
+🎬 STATUS CHANGE: Starting recording phase for episode 1/1
+🟡 STATUS CHANGE: Recording phase interrupted by user - episode 1 data collected
+💾 STATUS CHANGE: Saving episode 1
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 1876.65 examples/s]
+objc[2333]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1050943a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x1107703a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2334]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1013f83a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10c3c43a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2333]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1050943f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x1107703f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2334]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1013f83f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10c3c43f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+INFO 2026-10-04 20:26:30 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 20:26:30 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 59
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 59
+SVT [config]: width / height / fps numerator / fps denominator 		: 96 / 64 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 2 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 64 / 96 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 2 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+INFO 2026-10-04 20:26:31 b/record.py:936 ✅ Episode 1 saved successfully
+INFO 2026-10-04 20:26:31 ls/utils.py:143 Stop recording
+INFO 2026-10-04 20:26:31 a_opencv.py:601 OpenCVCamera(0) disconnected.
+INFO 2026-10-04 20:26:31 a_opencv.py:601 OpenCVCamera(1) disconnected.
+INFO 2026-10-04 20:26:31 ls/utils.py:143 Exiting
+INFO 2026-10-04 20:26:31 b/record.py:327 Recording completed successfully. Dataset has 1 episodes
+INFO 2026-10-04 20:26:31 b/record.py:365 Recording session ended
+[swscaler @ 0x8475ac000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0x8475a0000] No accelerated colorspace conversion found from yuv420p to rgb24.
+INFO 2026-10-04 20:26:31 s/config.py:420 Saved robot record repro_180: {'name': 'repro_180', 'leader_port': '', 'follower_port': '', 'leader_config': '', 'follower_config': '', 'cameras': [{'id': 'wrist', 'name': 'wrist', 'device_id': 'supplied-wrist', 'type': 'opencv', 'camera_index': 1, 'width': 96, 'height': 64, 'fps': 10, 'rotation': 180}]}
+INFO 2026-10-04 20:26:31 b/record.py:283 Starting recording for dataset: repro/rotation_180_20261004_202631
+INFO 2026-10-04 20:26:31 b/record.py:284 Task: rotate a supplied source
+INFO 2026-10-04 20:26:31 b/record.py:170 ✅ CAMERA CONFIG: front -> OpenCVCameraConfig(index=0, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:26:31 b/record.py:170 ✅ CAMERA CONFIG: wrist -> OpenCVCameraConfig(index=1, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=180)
+INFO 2026-10-04 20:26:31 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 20:26:31 gs/video.py:193 Using video codec: hevc
+INFO 2026-10-04 20:26:31 b/record.py:310 Recording session started: dataset=repro/rotation_180_20261004_202631 task='rotate a supplied source' episodes=1
+INFO 2026-10-04 20:26:31 b/record.py:320 Waiting for camera resources to be released (cameras: ['front', 'wrist'])
+INFO 2026-10-04 20:26:33 b/record.py:761 🔧 ROBOT CONNECTION: Attempting to connect robot...
+INFO 2026-10-04 20:26:33 b/record.py:763 ✅ ROBOT CONNECTION: Robot bus connected successfully
+INFO 2026-10-04 20:26:33 b/record.py:770 🔧 TELEOP CONNECTION: Attempting to connect teleoperator...
+INFO 2026-10-04 20:26:33 b/record.py:772 ✅ TELEOP CONNECTION: Teleoperator bus connected successfully
+INFO 2026-10-04 20:26:33 b/record.py:779 Writing calibration to motors...
+INFO 2026-10-04 20:26:33 b/record.py:785 🔧 CAMERA CONNECTION: Connecting cameras...
+INFO 2026-10-04 20:26:34 a_opencv.py:179 OpenCVCamera(0) connected.
+INFO 2026-10-04 20:26:35 a_opencv.py:179 OpenCVCamera(1) connected.
+INFO 2026-10-04 20:26:35 b/record.py:788 ✅ CAMERA CONNECTION: Cameras connected successfully
+INFO 2026-10-04 20:26:35 b/record.py:794 Configuring motors...
+INFO 2026-10-04 20:26:35 b/record.py:798 ✅ Devices ready
+INFO 2026-10-04 20:26:35 b/record.py:853 Starting recording phase for episode 1
+INFO 2026-10-04 20:26:35 b/record.py:854 Events state at start of recording phase: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False}
+INFO 2026-10-04 20:26:35 ls/utils.py:143 Recording episode 1
+INFO 2026-10-04 20:26:35 b/record.py:863 Recording phase - calling record_loop with events: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': False}
+INFO 2026-10-04 20:26:36 b/record.py:867 Recording phase completed - events state: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': True}
+INFO 2026-10-04 20:26:36 b/record.py:872 🟡 RECORDING PHASE INTERRUPTED BY EXIT_EARLY - proceeding to save episode
+INFO 2026-10-04 20:26:36 b/record.py:933 💾 Saving episode 1...
+✅ STATUS CHANGE: Episode 1 saved successfully
+🏁 STATUS CHANGE: Recording session completed - all episodes finished
+🎬 STATUS CHANGE: Starting recording phase for episode 1/1
+🟡 STATUS CHANGE: Recording phase interrupted by user - episode 1 data collected
+💾 STATUS CHANGE: Saving episode 1
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 1105.22 examples/s]
+objc[2404]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1005683a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10b8303a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2404]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1005683f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10b8303f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2403]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1008303a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10b69c3a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2403]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1008303f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10b69c3f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+INFO 2026-10-04 20:26:42 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 20:26:42 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 59
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 96 / 64 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 2 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 59
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 96 / 64 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 2 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+INFO 2026-10-04 20:26:43 b/record.py:936 ✅ Episode 1 saved successfully
+INFO 2026-10-04 20:26:43 ls/utils.py:143 Stop recording
+INFO 2026-10-04 20:26:43 a_opencv.py:601 OpenCVCamera(0) disconnected.
+INFO 2026-10-04 20:26:43 a_opencv.py:601 OpenCVCamera(1) disconnected.
+INFO 2026-10-04 20:26:43 ls/utils.py:143 Exiting
+INFO 2026-10-04 20:26:43 b/record.py:327 Recording completed successfully. Dataset has 1 episodes
+INFO 2026-10-04 20:26:43 b/record.py:365 Recording session ended
+[swscaler @ 0x847c70000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0x847c70000] No accelerated colorspace conversion found from yuv420p to rgb24.
+INFO 2026-10-04 20:26:43 s/config.py:420 Saved robot record repro_270: {'name': 'repro_270', 'leader_port': '', 'follower_port': '', 'leader_config': '', 'follower_config': '', 'cameras': [{'id': 'wrist', 'name': 'wrist', 'device_id': 'supplied-wrist', 'type': 'opencv', 'camera_index': 1, 'width': 96, 'height': 64, 'fps': 10, 'rotation': 270}]}
+INFO 2026-10-04 20:26:43 b/record.py:283 Starting recording for dataset: repro/rotation_270_20261004_202643
+INFO 2026-10-04 20:26:43 b/record.py:284 Task: rotate a supplied source
+INFO 2026-10-04 20:26:43 b/record.py:170 ✅ CAMERA CONFIG: front -> OpenCVCameraConfig(index=0, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:26:43 b/record.py:170 ✅ CAMERA CONFIG: wrist -> OpenCVCameraConfig(index=1, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=270)
+INFO 2026-10-04 20:26:43 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 20:26:43 gs/video.py:193 Using video codec: hevc
+INFO 2026-10-04 20:26:43 b/record.py:310 Recording session started: dataset=repro/rotation_270_20261004_202643 task='rotate a supplied source' episodes=1
+INFO 2026-10-04 20:26:43 b/record.py:320 Waiting for camera resources to be released (cameras: ['front', 'wrist'])
+INFO 2026-10-04 20:26:45 b/record.py:761 🔧 ROBOT CONNECTION: Attempting to connect robot...
+INFO 2026-10-04 20:26:45 b/record.py:763 ✅ ROBOT CONNECTION: Robot bus connected successfully
+INFO 2026-10-04 20:26:45 b/record.py:770 🔧 TELEOP CONNECTION: Attempting to connect teleoperator...
+INFO 2026-10-04 20:26:45 b/record.py:772 ✅ TELEOP CONNECTION: Teleoperator bus connected successfully
+INFO 2026-10-04 20:26:45 b/record.py:779 Writing calibration to motors...
+INFO 2026-10-04 20:26:45 b/record.py:785 🔧 CAMERA CONNECTION: Connecting cameras...
+INFO 2026-10-04 20:26:46 a_opencv.py:179 OpenCVCamera(0) connected.
+INFO 2026-10-04 20:26:47 a_opencv.py:179 OpenCVCamera(1) connected.
+INFO 2026-10-04 20:26:47 b/record.py:788 ✅ CAMERA CONNECTION: Cameras connected successfully
+INFO 2026-10-04 20:26:47 b/record.py:794 Configuring motors...
+INFO 2026-10-04 20:26:47 b/record.py:798 ✅ Devices ready
+INFO 2026-10-04 20:26:47 b/record.py:853 Starting recording phase for episode 1
+INFO 2026-10-04 20:26:47 b/record.py:854 Events state at start of recording phase: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False}
+INFO 2026-10-04 20:26:47 ls/utils.py:143 Recording episode 1
+INFO 2026-10-04 20:26:47 b/record.py:863 Recording phase - calling record_loop with events: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': False}
+INFO 2026-10-04 20:26:48 b/record.py:867 Recording phase completed - events state: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': True}
+INFO 2026-10-04 20:26:48 b/record.py:872 🟡 RECORDING PHASE INTERRUPTED BY EXIT_EARLY - proceeding to save episode
+INFO 2026-10-04 20:26:48 b/record.py:933 💾 Saving episode 1...
+✅ STATUS CHANGE: Episode 1 saved successfully
+🏁 STATUS CHANGE: Recording session completed - all episodes finished
+🎬 STATUS CHANGE: Starting recording phase for episode 1/1
+🟡 STATUS CHANGE: Recording phase interrupted by user - episode 1 data collected
+💾 STATUS CHANGE: Saving episode 1
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 1160.06 examples/s]
+objc[2443]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x102a1c3a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10d6e03a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2444]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x102a443a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10d7003a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2443]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x102a1c3f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10d6e03f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2444]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x102a443f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10d7003f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+INFO 2026-10-04 20:26:55 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 20:26:55 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[info]: -------------------------------------------
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 59
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 96 / 64 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 2 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 59
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 64 / 96 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 2 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+INFO 2026-10-04 20:26:56 b/record.py:936 ✅ Episode 1 saved successfully
+INFO 2026-10-04 20:26:56 ls/utils.py:143 Stop recording
+INFO 2026-10-04 20:26:56 a_opencv.py:601 OpenCVCamera(0) disconnected.
+INFO 2026-10-04 20:26:56 a_opencv.py:601 OpenCVCamera(1) disconnected.
+INFO 2026-10-04 20:26:56 ls/utils.py:143 Exiting
+INFO 2026-10-04 20:26:56 b/record.py:327 Recording completed successfully. Dataset has 1 episodes
+INFO 2026-10-04 20:26:56 b/record.py:365 Recording session ended
+[swscaler @ 0x847594000] No accelerated colorspace conversion found from yuv420p to rgb24.
+[swscaler @ 0x847cd4000] No accelerated colorspace conversion found from yuv420p to rgb24.
+✅ STATUS CHANGE: Episode 1 saved successfully
+🏁 STATUS CHANGE: Recording session completed - all episodes finished
+RESULT {"cache": "/var/folders/8p/st8ljpz15750xhwk4jn4jtyw0000gr/T/lelab-rotation-loop-or6vv9pw", "hardware": "supplied capture and motor devices; no physical hardware", "runs": [{"capture_settings": {"3": 96.0, "4": 64.0, "5": 10.0}, "dataset": "/var/folders/8p/st8ljpz15750xhwk4jn4jtyw0000gr/T/lelab-rotation-loop-or6vv9pw/repro/rotation_0_20261004_202606", "frames": 5, "front_unchanged": true, "policy_camera_input_exact": true, "profile_reload": true, "recording_loop": true, "rotation": 0, "saved_video_mean_error": 2.9549696180555554, "shape": [64, 96, 3]}, {"capture_settings": {"3": 96.0, "4": 64.0, "5": 10.0}, "dataset": "/var/folders/8p/st8ljpz15750xhwk4jn4jtyw0000gr/T/lelab-rotation-loop-or6vv9pw/repro/rotation_90_20261004_202619", "frames": 5, "front_unchanged": true, "policy_camera_input_exact": true, "profile_reload": true, "recording_loop": true, "rotation": 90, "saved_video_mean_error": 2.8384874131944446, "shape": [96, 64, 3]}, {"capture_settings": {"3": 96.0, "4": 64.0, "5": 10.0}, "dataset": "/var/folders/8p/st8ljpz15750xhwk4jn4jtyw0000gr/T/lelab-rotation-loop-or6vv9pw/repro/rotation_180_20261004_202631", "frames": 5, "front_unchanged": true, "policy_camera_input_exact": true, "profile_reload": true, "recording_loop": true, "rotation": 180, "saved_video_mean_error": 2.9491102430555554, "shape": [64, 96, 3]}, {"capture_settings": {"3": 96.0, "4": 64.0, "5": 10.0}, "dataset": "/var/folders/8p/st8ljpz15750xhwk4jn4jtyw0000gr/T/lelab-rotation-loop-or6vv9pw/repro/rotation_270_20261004_202643", "frames": 5, "front_unchanged": true, "policy_camera_input_exact": true, "profile_reload": true, "recording_loop": true, "rotation": 270, "saved_video_mean_error": 2.753200954861111, "shape": [96, 64, 3]}]}

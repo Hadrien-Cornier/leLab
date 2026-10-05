@@ -1,0 +1,7 @@
+
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-pr/frontend/src/pages/Landing.tsx
+  65:6   warning  React Hook useEffect has a missing dependency: 'cameras.length'. Either include it or remove the dependency array                                                                                                                                                                  react-hooks/exhaustive-deps
+  71:27  warning  The ref value 'releaseStreamsRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'releaseStreamsRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+✖ 2 problems (0 errors, 2 warnings)
+

@@ -1,0 +1,358 @@
+objc[2022]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1029b43a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10dce43a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2022]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1029b43f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10dce43f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+INFO 2026-10-04 20:25:13 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 20:25:13 s/config.py:420 Saved robot record repro_0: {'name': 'repro_0', 'leader_port': '', 'follower_port': '', 'leader_config': '', 'follower_config': '', 'cameras': [{'id': 'wrist', 'name': 'wrist', 'device_id': 'supplied-wrist', 'type': 'opencv', 'camera_index': 1, 'width': 96, 'height': 64, 'fps': 10, 'rotation': 0}]}
+INFO 2026-10-04 20:25:13 b/record.py:283 Starting recording for dataset: repro/rotation_0_20261004_202513
+INFO 2026-10-04 20:25:13 b/record.py:284 Task: rotate a supplied source
+INFO 2026-10-04 20:25:13 b/record.py:170 ✅ CAMERA CONFIG: front -> OpenCVCameraConfig(index=0, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:25:13 b/record.py:170 ✅ CAMERA CONFIG: wrist -> OpenCVCameraConfig(index=1, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:25:13 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 20:25:13 gs/video.py:193 Using video codec: hevc
+INFO 2026-10-04 20:25:13 b/record.py:310 Recording session started: dataset=repro/rotation_0_20261004_202513 task='rotate a supplied source' episodes=1
+INFO 2026-10-04 20:25:13 b/record.py:320 Waiting for camera resources to be released (cameras: ['front', 'wrist'])
+INFO 2026-10-04 20:25:16 b/record.py:761 🔧 ROBOT CONNECTION: Attempting to connect robot...
+INFO 2026-10-04 20:25:16 b/record.py:763 ✅ ROBOT CONNECTION: Robot bus connected successfully
+INFO 2026-10-04 20:25:16 b/record.py:770 🔧 TELEOP CONNECTION: Attempting to connect teleoperator...
+INFO 2026-10-04 20:25:16 b/record.py:772 ✅ TELEOP CONNECTION: Teleoperator bus connected successfully
+INFO 2026-10-04 20:25:16 b/record.py:779 Writing calibration to motors...
+INFO 2026-10-04 20:25:16 b/record.py:785 🔧 CAMERA CONNECTION: Connecting cameras...
+INFO 2026-10-04 20:25:17 a_opencv.py:179 OpenCVCamera(0) connected.
+INFO 2026-10-04 20:25:18 a_opencv.py:179 OpenCVCamera(1) connected.
+INFO 2026-10-04 20:25:18 b/record.py:788 ✅ CAMERA CONNECTION: Cameras connected successfully
+INFO 2026-10-04 20:25:18 b/record.py:794 Configuring motors...
+INFO 2026-10-04 20:25:18 b/record.py:798 ✅ Devices ready
+INFO 2026-10-04 20:25:18 b/record.py:853 Starting recording phase for episode 1
+INFO 2026-10-04 20:25:18 b/record.py:854 Events state at start of recording phase: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False}
+INFO 2026-10-04 20:25:18 ls/utils.py:143 Recording episode 1
+INFO 2026-10-04 20:25:18 b/record.py:863 Recording phase - calling record_loop with events: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': False}
+INFO 2026-10-04 20:25:18 b/record.py:867 Recording phase completed - events state: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': True}
+INFO 2026-10-04 20:25:18 b/record.py:872 🟡 RECORDING PHASE INTERRUPTED BY EXIT_EARLY - proceeding to save episode
+INFO 2026-10-04 20:25:18 b/record.py:933 💾 Saving episode 1...
+🎬 STATUS CHANGE: Starting recording phase for episode 1/1
+🟡 STATUS CHANGE: Recording phase interrupted by user - episode 1 data collected
+💾 STATUS CHANGE: Saving episode 1
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 492.42 examples/s]
+objc[2087]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1009d43a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10b6503a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2087]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1009d43f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10b6503f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2086]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1017543a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10bb603a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2086]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x1017543f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10bb603f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+INFO 2026-10-04 20:25:26 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 20:25:26 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 20:25:26 s/config.py:420 Saved robot record repro_0: {'name': 'repro_0', 'leader_port': '', 'follower_port': '', 'leader_config': '', 'follower_config': '', 'cameras': [{'id': 'wrist', 'name': 'wrist', 'device_id': 'supplied-wrist', 'type': 'opencv', 'camera_index': 1, 'width': 96, 'height': 64, 'fps': 10, 'rotation': 0}]}
+INFO 2026-10-04 20:25:26 s/config.py:420 Saved robot record repro_0: {'name': 'repro_0', 'leader_port': '', 'follower_port': '', 'leader_config': '', 'follower_config': '', 'cameras': [{'id': 'wrist', 'name': 'wrist', 'device_id': 'supplied-wrist', 'type': 'opencv', 'camera_index': 1, 'width': 96, 'height': 64, 'fps': 10, 'rotation': 0}]}
+INFO 2026-10-04 20:25:26 b/record.py:283 Starting recording for dataset: repro/rotation_0_20261004_202526
+INFO 2026-10-04 20:25:26 b/record.py:283 Starting recording for dataset: repro/rotation_0_20261004_202526
+INFO 2026-10-04 20:25:26 b/record.py:284 Task: rotate a supplied source
+INFO 2026-10-04 20:25:26 b/record.py:284 Task: rotate a supplied source
+INFO 2026-10-04 20:25:26 b/record.py:170 ✅ CAMERA CONFIG: front -> OpenCVCameraConfig(index=0, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:25:26 b/record.py:170 ✅ CAMERA CONFIG: front -> OpenCVCameraConfig(index=0, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:25:26 b/record.py:170 ✅ CAMERA CONFIG: wrist -> OpenCVCameraConfig(index=1, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:25:26 b/record.py:170 ✅ CAMERA CONFIG: wrist -> OpenCVCameraConfig(index=1, backend=AVFOUNDATION, 96x64@10fps, fourcc=None, rotation=0)
+INFO 2026-10-04 20:25:26 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 20:25:26 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 20:25:26 gs/video.py:193 Using video codec: hevc
+INFO 2026-10-04 20:25:26 gs/video.py:193 Using video codec: hevc
+INFO 2026-10-04 20:25:26 b/record.py:310 Recording session started: dataset=repro/rotation_0_20261004_202526 task='rotate a supplied source' episodes=1
+INFO 2026-10-04 20:25:26 b/record.py:310 Recording session started: dataset=repro/rotation_0_20261004_202526 task='rotate a supplied source' episodes=1
+INFO 2026-10-04 20:25:26 b/record.py:320 Waiting for camera resources to be released (cameras: ['front', 'wrist'])
+INFO 2026-10-04 20:25:26 b/record.py:320 Waiting for camera resources to be released (cameras: ['front', 'wrist'])
+INFO 2026-10-04 20:25:28 b/record.py:761 🔧 ROBOT CONNECTION: Attempting to connect robot...
+INFO 2026-10-04 20:25:28 b/record.py:761 🔧 ROBOT CONNECTION: Attempting to connect robot...
+INFO 2026-10-04 20:25:28 b/record.py:763 ✅ ROBOT CONNECTION: Robot bus connected successfully
+INFO 2026-10-04 20:25:28 b/record.py:770 🔧 TELEOP CONNECTION: Attempting to connect teleoperator...
+INFO 2026-10-04 20:25:28 b/record.py:763 ✅ ROBOT CONNECTION: Robot bus connected successfully
+INFO 2026-10-04 20:25:28 b/record.py:770 🔧 TELEOP CONNECTION: Attempting to connect teleoperator...
+INFO 2026-10-04 20:25:28 b/record.py:772 ✅ TELEOP CONNECTION: Teleoperator bus connected successfully
+INFO 2026-10-04 20:25:28 b/record.py:779 Writing calibration to motors...
+INFO 2026-10-04 20:25:28 b/record.py:772 ✅ TELEOP CONNECTION: Teleoperator bus connected successfully
+INFO 2026-10-04 20:25:28 b/record.py:779 Writing calibration to motors...
+INFO 2026-10-04 20:25:28 b/record.py:785 🔧 CAMERA CONNECTION: Connecting cameras...
+INFO 2026-10-04 20:25:28 b/record.py:785 🔧 CAMERA CONNECTION: Connecting cameras...
+INFO 2026-10-04 20:25:29 a_opencv.py:179 OpenCVCamera(0) connected.
+INFO 2026-10-04 20:25:29 a_opencv.py:179 OpenCVCamera(0) connected.
+INFO 2026-10-04 20:25:30 a_opencv.py:179 OpenCVCamera(1) connected.
+INFO 2026-10-04 20:25:30 b/record.py:788 ✅ CAMERA CONNECTION: Cameras connected successfully
+INFO 2026-10-04 20:25:30 b/record.py:794 Configuring motors...
+INFO 2026-10-04 20:25:30 b/record.py:798 ✅ Devices ready
+INFO 2026-10-04 20:25:30 b/record.py:853 Starting recording phase for episode 1
+INFO 2026-10-04 20:25:30 b/record.py:854 Events state at start of recording phase: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False}
+INFO 2026-10-04 20:25:30 ls/utils.py:143 Recording episode 1
+INFO 2026-10-04 20:25:30 b/record.py:863 Recording phase - calling record_loop with events: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': False}
+INFO 2026-10-04 20:25:30 a_opencv.py:179 OpenCVCamera(1) connected.
+INFO 2026-10-04 20:25:30 b/record.py:788 ✅ CAMERA CONNECTION: Cameras connected successfully
+INFO 2026-10-04 20:25:30 b/record.py:794 Configuring motors...
+INFO 2026-10-04 20:25:30 b/record.py:798 ✅ Devices ready
+INFO 2026-10-04 20:25:30 b/record.py:853 Starting recording phase for episode 1
+INFO 2026-10-04 20:25:30 b/record.py:854 Events state at start of recording phase: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False}
+INFO 2026-10-04 20:25:30 ls/utils.py:143 Recording episode 1
+INFO 2026-10-04 20:25:30 b/record.py:863 Recording phase - calling record_loop with events: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': False}
+INFO 2026-10-04 20:25:30 b/record.py:867 Recording phase completed - events state: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': True}
+INFO 2026-10-04 20:25:30 b/record.py:872 🟡 RECORDING PHASE INTERRUPTED BY EXIT_EARLY - proceeding to save episode
+INFO 2026-10-04 20:25:30 b/record.py:933 💾 Saving episode 1...
+INFO 2026-10-04 20:25:30 b/record.py:867 Recording phase completed - events state: {'exit_early': False, 'stop_recording': False, 'rerecord_episode': False, '_exit_early_triggered': True}
+INFO 2026-10-04 20:25:30 b/record.py:872 🟡 RECORDING PHASE INTERRUPTED BY EXIT_EARLY - proceeding to save episode
+INFO 2026-10-04 20:25:30 b/record.py:933 💾 Saving episode 1...
+🎬 STATUS CHANGE: Starting recording phase for episode 1/1
+🟡 STATUS CHANGE: Recording phase interrupted by user - episode 1 data collected
+💾 STATUS CHANGE: Saving episode 1
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 2183.62 examples/s]
+INFO 2026-10-04 20:25:31 a_opencv.py:601 OpenCVCamera(0) disconnected.
+INFO 2026-10-04 20:25:31 a_opencv.py:601 OpenCVCamera(1) disconnected.
+🎬 STATUS CHANGE: Starting recording phase for episode 1/1
+🟡 STATUS CHANGE: Recording phase interrupted by user - episode 1 data collected
+💾 STATUS CHANGE: Saving episode 1
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 1885.42 examples/s]
+INFO 2026-10-04 20:25:31 a_opencv.py:601 OpenCVCamera(0) disconnected.
+INFO 2026-10-04 20:25:31 a_opencv.py:601 OpenCVCamera(1) disconnected.
+ERROR 2026-10-04 20:25:31 b/record.py:342 Recording session failed: 
+        An attempt has been made to start a new process before the
+        current process has finished its bootstrapping phase.
+
+        This probably means that you are not using fork to start your
+        child processes and you have forgotten to use the proper idiom
+        in the main module:
+
+            if __name__ == '__main__':
+                freeze_support()
+                ...
+
+        The "freeze_support()" line can be omitted if the program
+        is not going to be frozen to produce an executable.
+
+        To fix this issue, refer to the "Safe importing of main module"
+        section in https://docs.python.org/3/library/multiprocessing.html
+        
+Traceback (most recent call last):
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-pr/lelab/record.py", line 326, in recording_worker
+    dataset = record_with_web_events(record_config, recording_events)
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-pr/lelab/record.py", line 935, in record_with_web_events
+    dataset.save_episode()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/lerobot/datasets/lerobot_dataset.py", line 436, in save_episode
+    self.writer.save_episode(episode_data, parallel_encoding)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/lerobot/datasets/dataset_writer.py", line 329, in save_episode
+    executor.submit(
+    ~~~~~~~~~~~~~~~^
+        _encode_video_worker,
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        self._encoder_threads,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    ): video_key
+    ^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/concurrent/futures/process.py", line 808, in submit
+    self._adjust_process_count()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/concurrent/futures/process.py", line 767, in _adjust_process_count
+    self._spawn_process()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/concurrent/futures/process.py", line 785, in _spawn_process
+    p.start()
+    ~~~~~~~^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/process.py", line 121, in start
+    self._popen = self._Popen(self)
+                  ~~~~~~~~~~~^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/context.py", line 289, in _Popen
+    return Popen(process_obj)
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/popen_spawn_posix.py", line 32, in __init__
+    super().__init__(process_obj)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/popen_fork.py", line 20, in __init__
+    self._launch(process_obj)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/popen_spawn_posix.py", line 42, in _launch
+    prep_data = spawn.get_preparation_data(process_obj._name)
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 164, in get_preparation_data
+    _check_not_importing_main()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 140, in _check_not_importing_main
+    raise RuntimeError('''
+    ...<16 lines>...
+    ''')
+RuntimeError: 
+        An attempt has been made to start a new process before the
+        current process has finished its bootstrapping phase.
+
+        This probably means that you are not using fork to start your
+        child processes and you have forgotten to use the proper idiom
+        in the main module:
+
+            if __name__ == '__main__':
+                freeze_support()
+                ...
+
+        The "freeze_support()" line can be omitted if the program
+        is not going to be frozen to produce an executable.
+
+        To fix this issue, refer to the "Safe importing of main module"
+        section in https://docs.python.org/3/library/multiprocessing.html
+        
+
+INFO 2026-10-04 20:25:31 b/record.py:365 Recording session ended
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=5, pipe_handle=19)
+                                                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                                  run_name="__mp_main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-evidence/workflow.py", line 115, in <module>
+    assert record.last_recording_info["success"], record.last_recording_info
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+AssertionError: {'success': False, 'error': '\n        An attempt has been made to start a new process before the\n        current process has finished its bootstrapping phase.\n\n        This probably means that you are not using fork to start your\n        child processes and you have forgotten to use the proper idiom\n        in the main module:\n\n            if __name__ == \'__main__\':\n                freeze_support()\n                ...\n\n        The "freeze_support()" line can be omitted if the program\n        is not going to be frozen to produce an executable.\n\n        To fix this issue, refer to the "Safe importing of main module"\n        section in https://docs.python.org/3/library/multiprocessing.html\n        ', 'dataset_repo_id': 'repro/rotation_0_20261004_202526', 'saved_episodes': 0}
+ERROR 2026-10-04 20:25:31 b/record.py:342 Recording session failed: 
+        An attempt has been made to start a new process before the
+        current process has finished its bootstrapping phase.
+
+        This probably means that you are not using fork to start your
+        child processes and you have forgotten to use the proper idiom
+        in the main module:
+
+            if __name__ == '__main__':
+                freeze_support()
+                ...
+
+        The "freeze_support()" line can be omitted if the program
+        is not going to be frozen to produce an executable.
+
+        To fix this issue, refer to the "Safe importing of main module"
+        section in https://docs.python.org/3/library/multiprocessing.html
+        
+Traceback (most recent call last):
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-pr/lelab/record.py", line 326, in recording_worker
+    dataset = record_with_web_events(record_config, recording_events)
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-pr/lelab/record.py", line 935, in record_with_web_events
+    dataset.save_episode()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/lerobot/datasets/lerobot_dataset.py", line 436, in save_episode
+    self.writer.save_episode(episode_data, parallel_encoding)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/lerobot/datasets/dataset_writer.py", line 329, in save_episode
+    executor.submit(
+    ~~~~~~~~~~~~~~~^
+        _encode_video_worker,
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        self._encoder_threads,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    ): video_key
+    ^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/concurrent/futures/process.py", line 808, in submit
+    self._adjust_process_count()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/concurrent/futures/process.py", line 767, in _adjust_process_count
+    self._spawn_process()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/concurrent/futures/process.py", line 785, in _spawn_process
+    p.start()
+    ~~~~~~~^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/process.py", line 121, in start
+    self._popen = self._Popen(self)
+                  ~~~~~~~~~~~^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/context.py", line 289, in _Popen
+    return Popen(process_obj)
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/popen_spawn_posix.py", line 32, in __init__
+    super().__init__(process_obj)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/popen_fork.py", line 20, in __init__
+    self._launch(process_obj)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/popen_spawn_posix.py", line 42, in _launch
+    prep_data = spawn.get_preparation_data(process_obj._name)
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 164, in get_preparation_data
+    _check_not_importing_main()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 140, in _check_not_importing_main
+    raise RuntimeError('''
+    ...<16 lines>...
+    ''')
+RuntimeError: 
+        An attempt has been made to start a new process before the
+        current process has finished its bootstrapping phase.
+
+        This probably means that you are not using fork to start your
+        child processes and you have forgotten to use the proper idiom
+        in the main module:
+
+            if __name__ == '__main__':
+                freeze_support()
+                ...
+
+        The "freeze_support()" line can be omitted if the program
+        is not going to be frozen to produce an executable.
+
+        To fix this issue, refer to the "Safe importing of main module"
+        section in https://docs.python.org/3/library/multiprocessing.html
+        
+
+INFO 2026-10-04 20:25:31 b/record.py:365 Recording session ended
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=5, pipe_handle=21)
+                                                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                                  run_name="__mp_main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-evidence/workflow.py", line 115, in <module>
+    assert record.last_recording_info["success"], record.last_recording_info
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+AssertionError: {'success': False, 'error': '\n        An attempt has been made to start a new process before the\n        current process has finished its bootstrapping phase.\n\n        This probably means that you are not using fork to start your\n        child processes and you have forgotten to use the proper idiom\n        in the main module:\n\n            if __name__ == \'__main__\':\n                freeze_support()\n                ...\n\n        The "freeze_support()" line can be omitted if the program\n        is not going to be frozen to produce an executable.\n\n        To fix this issue, refer to the "Safe importing of main module"\n        section in https://docs.python.org/3/library/multiprocessing.html\n        ', 'dataset_repo_id': 'repro/rotation_0_20261004_202526', 'saved_episodes': 0}
+ERROR 2026-10-04 20:25:31 t_writer.py:348 Video encoding failed for observation.images.front: A process in the process pool was terminated abruptly while the future was running or pending.
+INFO 2026-10-04 20:25:31 a_opencv.py:601 OpenCVCamera(0) disconnected.
+INFO 2026-10-04 20:25:31 a_opencv.py:601 OpenCVCamera(1) disconnected.
+ERROR 2026-10-04 20:25:31 b/record.py:342 Recording session failed: A process in the process pool was terminated abruptly while the future was running or pending.
+Traceback (most recent call last):
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-pr/lelab/record.py", line 326, in recording_worker
+    dataset = record_with_web_events(record_config, recording_events)
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-pr/lelab/record.py", line 935, in record_with_web_events
+    dataset.save_episode()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/lerobot/datasets/lerobot_dataset.py", line 436, in save_episode
+    self.writer.save_episode(episode_data, parallel_encoding)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/lerobot/datasets/dataset_writer.py", line 349, in save_episode
+    raise exc
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/lerobot/datasets/dataset_writer.py", line 345, in save_episode
+    temp_path = future.result()
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/HCornier/.local/share/uv/python/cpython-3.13.9-macos-aarch64-none/lib/python3.13/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+concurrent.futures.process.BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending.
+
+INFO 2026-10-04 20:25:31 b/record.py:365 Recording session ended
+Traceback (most recent call last):
+  File "/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation-evidence/workflow.py", line 115, in <module>
+    assert record.last_recording_info["success"], record.last_recording_info
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+AssertionError: {'success': False, 'error': 'A process in the process pool was terminated abruptly while the future was running or pending.', 'dataset_repo_id': 'repro/rotation_0_20261004_202513', 'saved_episodes': 0}

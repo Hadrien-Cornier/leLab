@@ -1,0 +1,42 @@
+objc[2538]: Class AVFFrameReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x100c7c3a8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10c3b83a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[2538]: Class AVFAudioReceiver is implemented in both /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x100c7c3f8) and /Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x10c3b83f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+/Users/HCornier/Documents/Personal/LeRobot/lelab-camera-rotation/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+INFO 2026-10-04 20:27:20 b/server.py:160 LeRobot path: /Users/HCornier/Documents/Personal
+INFO 2026-10-04 20:27:20 b/record.py:283 Starting recording for dataset: repro/camera_rotation_20261004_202720
+INFO 2026-10-04 20:27:20 b/record.py:284 Task: rotation reproduction
+INFO 2026-10-04 20:27:20 b/record.py:170 ✅ CAMERA CONFIG: wrist -> OpenCVCameraConfig(index=0, backend=AVFOUNDATION, 64x48@10fps, fourcc=None, rotation=180)
+INFO 2026-10-04 20:27:20 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 20:27:20 gs/video.py:193 Using video codec: hevc
+INFO 2026-10-04 20:27:20 b/record.py:310 Recording session started: dataset=repro/camera_rotation_20261004_202720 task='rotation reproduction' episodes=1
+INFO 2026-10-04 20:27:20 b/record.py:320 Waiting for camera resources to be released (cameras: ['wrist'])
+INFO 2026-10-04 20:27:22 gs/video.py:193 Using video codec: libsvtav1
+INFO 2026-10-04 20:27:22 gs/video.py:193 Using video codec: hevc
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|██████████| 5/5 [00:00<00:00, 479.99 examples/s]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v3.0.0
+Svt[info]: SVT [build]  :	Apple LLVM 15.0.0 (clang-1500.3.9.4)	 64 bit
+Svt[info]: LIB Build date: Jul  3 2025 03:06:26
+Svt[info]: -------------------------------------------
+Svt[warn]: Preset M12 is mapped to M10.
+Svt[warn]: Instance 1: AQ mode 2 is unsupported with source dimensions (64 / 48), setting AQ mode to 0
+Svt[warn]: Instance 1: Restoration Filtering is unsupported with source dimensions (64 / 48), disabling Restoration Filtering
+Svt[warn]: TPL is disabled for aq_mode 0
+Svt[info]: Level of Parallelism: 4
+Svt[info]: Number of PPCS 42
+Svt[info]: [asm level on system : up to neon_dotprod]
+Svt[info]: [asm level selected : up to neon_dotprod]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 64 / 48 / 10 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 2 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / CQP Assignment 					: CQP / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 0 / 0
+Svt[info]: SVT [config]: sharpness / luminance-based QP bias 			: 0 / 0
+Svt[info]: Svt[info]: -------------------------------------------
+INFO 2026-10-04 20:27:22 b/record.py:327 Recording completed successfully. Dataset has 1 episodes
+INFO 2026-10-04 20:27:22 b/record.py:365 Recording session ended
+[swscaler @ 0xbc9c9c000] No accelerated colorspace conversion found from yuv420p to rgb24.
+RESULT {"http": {"dataset_id": "repro/camera_rotation_20261004_202720", "message": "Recording started successfully", "num_episodes": 1, "success": true}, "mean_absolute_error_upright": 2.5, "root": "/var/folders/8p/st8ljpz15750xhwk4jn4jtyw0000gr/T/lelab-rotation-ztrzutxt/repro/camera_rotation_20261004_202720", "upright": true, "video": "/var/folders/8p/st8ljpz15750xhwk4jn4jtyw0000gr/T/lelab-rotation-ztrzutxt/repro/camera_rotation_20261004_202720/videos/observation.images.wrist/chunk-000/file-000.mp4", "wrist": {"rotation": 180, "shape": [48, 64, 3]}}
