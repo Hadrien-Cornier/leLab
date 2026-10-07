@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Plus, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import DatasetPicker from "@/components/landing/DatasetPicker";
 import { DatasetItem } from "@/lib/replayApi";
 
 interface MergeDatasetsDialogProps {
@@ -35,19 +35,24 @@ export default function MergeDatasetsDialog({
   const [merging, setMerging] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const localDatasets = useMemo(
+  const candidates = useMemo(
     () =>
       datasets.filter(
         (dataset) =>
-          dataset.repo_id !== selectedRepoId && (dataset.source === "local" || dataset.source === "both"),
+          (dataset.source === "local" || dataset.source === "both") && !selected.includes(dataset.repo_id),
       ),
-    [datasets, selectedRepoId],
+    [datasets, selected],
   );
   const canMerge = selected.length >= 2 && /^[A-Za-z0-9._-]+$/.test(outputName) && !merging;
 
-  const toggleDataset = (repoId: string, checked: boolean) => {
+  const addDataset = (repoId: string) => {
     setError(null);
-    setSelected((current) => (checked ? [...current, repoId] : current.filter((id) => id !== repoId)));
+    setSelected((current) => [...current, repoId]);
+  };
+
+  const removeDataset = (repoId: string) => {
+    setError(null);
+    setSelected((current) => current.filter((id) => id !== repoId));
   };
 
   const reset = () => {
@@ -100,17 +105,31 @@ export default function MergeDatasetsDialog({
           <Label className="text-gray-300">Source datasets</Label>
           <div className="max-h-52 space-y-2 overflow-y-auto rounded-md border border-gray-700 p-3">
             <p className="text-sm text-gray-200">{selectedRepoId}</p>
-            {localDatasets.map((dataset) => (
-              <label key={dataset.repo_id} className="flex cursor-pointer items-center gap-3 text-sm text-gray-200">
-                <Checkbox
-                  checked={selected.includes(dataset.repo_id)}
-                  onCheckedChange={(checked) => toggleDataset(dataset.repo_id, checked === true)}
+            {selected.slice(1).map((repoId) => (
+              <div key={repoId} className="flex items-center justify-between text-sm text-gray-200">
+                <span className="truncate">{repoId}</span>
+                <button
+                  type="button"
+                  aria-label={`Remove ${repoId}`}
+                  onClick={() => removeDataset(repoId)}
                   disabled={merging}
-                />
-                {dataset.repo_id}
-              </label>
+                  className="text-gray-400 hover:text-white"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
             ))}
           </div>
+          <DatasetPicker
+            datasets={candidates}
+            loading={false}
+            onPickExisting={(item) => addDataset(item.repo_id)}
+          >
+            <Button variant="outline" size="sm" disabled={merging} className="gap-1.5">
+              <Plus className="h-3.5 w-3.5" />
+              Add dataset
+            </Button>
+          </DatasetPicker>
           <p className="text-xs text-gray-500">Select at least one additional dataset.</p>
 
           <div className="space-y-2">
