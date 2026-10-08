@@ -170,6 +170,8 @@ def _build_camera_configs(cameras: dict, default_backend) -> dict:
 
 def create_record_config(request: RecordingRequest) -> RecordConfig:
     """Create a RecordConfig from the recording request"""
+    from lerobot.utils.constants import HF_LEROBOT_HOME
+
     # Setup calibration files
     leader_config_name, follower_config_name = setup_calibration_files(
         request.leader_config, request.follower_config
@@ -195,6 +197,9 @@ def create_record_config(request: RecordingRequest) -> RecordConfig:
     # Create dataset config
     dataset_config = DatasetRecordConfig(
         repo_id=request.dataset_repo_id,
+        # LeRobot's create() defaults to this directory, but resume() refuses
+        # root=None, so spell it out for both.
+        root=HF_LEROBOT_HOME / request.dataset_repo_id,
         single_task=request.single_task,
         num_episodes=request.num_episodes,
         episode_time_s=request.episode_time_s,
@@ -271,6 +276,8 @@ def handle_start_recording(request: RecordingRequest) -> dict[str, Any]:
         # final id back in the response and status payload.
         if not request.resume and request.dataset_repo_id:
             request.dataset_repo_id = f"{request.dataset_repo_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        if request.resume:
+            repair_local_dataset(request.dataset_repo_id)
 
         logger.info(f"Starting recording for dataset: {request.dataset_repo_id}")
         logger.info(f"Task: {request.single_task}")

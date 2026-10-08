@@ -140,8 +140,10 @@ def test_merge_local_datasets_creates_new_dataset_without_touching_sources(
 ) -> None:
     from lelab import datasets as datasets_mod
 
-    _make_dataset(tmp_lerobot_home, "alice/first")
-    _make_dataset(tmp_lerobot_home, "bob/second")
+    from .test_dataset_repair import _record
+
+    _record("alice/first", video=False, episodes=1)
+    _record("bob/second", video=False, episodes=1)
     calls = []
 
     class FakeDataset:
@@ -180,10 +182,6 @@ def test_merge_local_datasets_repairs_an_interrupted_source_before_opening(
 
     from .test_dataset_repair import _record
 
-    # dataset_repair follows LeRobot's import-time cache constant, whereas the
-    # browser functions use the per-test environment variable.
-    monkeypatch.setattr("lerobot.utils.constants.HF_LEROBOT_HOME", tmp_lerobot_home)
-    monkeypatch.setattr("lerobot.datasets.dataset_metadata.HF_LEROBOT_HOME", tmp_lerobot_home)
     first = _record("alice/first", video=False, episodes=1)
     _record("bob/second", video=False, episodes=1)
     # This is the on-disk state an interrupted recording leaves behind. With
@@ -261,8 +259,10 @@ def test_merge_local_datasets_cleans_staging_output_on_failure(
 ) -> None:
     from lelab import datasets as datasets_mod
 
-    _make_dataset(tmp_lerobot_home, "alice/first")
-    _make_dataset(tmp_lerobot_home, "bob/second")
+    from .test_dataset_repair import _record
+
+    _record("alice/first", video=False, episodes=1)
+    _record("bob/second", video=False, episodes=1)
     monkeypatch.setattr(datasets_mod, "LeRobotDataset", lambda repo_id, root: object())
 
     def failing_merge(datasets, output_repo_id: str, output_dir: Path):
@@ -327,7 +327,11 @@ def test_list_episodes_returns_rows(client: TestClient, browsable_dataset: str) 
     body = r.json()
     assert body["success"] is True
     assert body["fps"] == 10
-    assert body["cameras"] == ["top", "wrist"]
+    # Same shape as a checkpoint's image_features, so cameras bind the same way.
+    assert body["image_features"] == {
+        "top": {"height": 24, "width": 32},
+        "wrist": {"height": 24, "width": 32},
+    }
     assert [e["episode_index"] for e in body["episodes"]] == [0, 1, 2]
 
 
