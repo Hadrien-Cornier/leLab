@@ -28,7 +28,13 @@ import {
   Circle,
   Camera,
   ShieldQuestion,
+  ChevronRight,
 } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 import Logo from "@/components/Logo";
 import PortDetectionButton from "@/components/ui/PortDetectionButton";
@@ -694,29 +700,37 @@ const Calibration = () => {
                 )}
                 {!calibrationStatus.calibration_active &&
                   existingConfigs.length > 0 && (
-                    <Select
-                      value={
-                        robot && existingConfigs.includes(robot[configField])
-                          ? robot[configField]
-                          : ""
-                      }
-                      onValueChange={linkExistingConfig}
-                      disabled={!robotName}
-                    >
-                      <SelectTrigger
-                        aria-label="Use an existing calibration file"
-                        className="bg-slate-700 border-slate-600 text-white rounded-md"
-                      >
-                        <SelectValue placeholder="…or use an existing calibration file" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-slate-800 border-slate-700 text-white">
-                        {existingConfigs.map((file) => (
-                          <SelectItem key={file} value={file} className="hover:bg-slate-700">
-                            {file.replace(/\.json$/, "")}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Collapsible>
+                      <CollapsibleTrigger className="group flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-white transition-colors">
+                        <ChevronRight className="w-3.5 h-3.5 transition-transform group-data-[state=open]:rotate-90" />
+                        Advanced
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="pt-2">
+                        <Select
+                          value={
+                            robot && existingConfigs.includes(robot[configField])
+                              ? robot[configField]
+                              : ""
+                          }
+                          onValueChange={linkExistingConfig}
+                          disabled={!robotName}
+                        >
+                          <SelectTrigger
+                            aria-label="Use an existing calibration file"
+                            className="bg-slate-700 border-slate-600 text-white rounded-md"
+                          >
+                            <SelectValue placeholder="…or use an existing calibration file" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-slate-800 border-slate-700 text-white">
+                            {existingConfigs.map((file) => (
+                              <SelectItem key={file} value={file} className="hover:bg-slate-700">
+                                {file.replace(/\.json$/, "")}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </CollapsibleContent>
+                    </Collapsible>
                   )}
               </div>
 
