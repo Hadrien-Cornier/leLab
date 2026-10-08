@@ -113,6 +113,14 @@ from .utils.system import (
     warn_if_cuda_mismatch,
 )
 
+# Windows consoles often use a legacy code page (cp1252) that can't encode the
+# emoji used in log/print output; an unhandled UnicodeEncodeError inside an
+# endpoint then turns into a 500 and hides the real error from the frontend.
+for _stream in (sys.stdout, sys.stderr):
+    if _stream is not None and hasattr(_stream, "reconfigure"):
+        with contextlib.suppress(Exception):
+            _stream.reconfigure(errors="replace")
+
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

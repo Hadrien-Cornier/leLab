@@ -351,7 +351,7 @@ def handle_start_recording(request: RecordingRequest) -> dict[str, Any]:
                 # count: the frontend still offers them for upload.
                 last_recording_info = {
                     "success": False,
-                    "error": str(e),
+                    "error": str(e) or repr(e),
                     "dataset_repo_id": request.dataset_repo_id,
                     "saved_episodes": saved_episodes,
                 }
