@@ -169,6 +169,11 @@ class ConnectionManager:
     def __init__(self):
         self.active_connections: list[WebSocket] = []
         self.broadcast_queue = queue.Queue()
+        # Latest-wins slot for live joint frames. Joint updates supersede one
+        # another, so a slow consumer must never make them pile up in the
+        # queue — otherwise the 3D view drifts further and further behind the
+        # real robot as the backlog grows.
+        self._latest_joint_frame: dict[str, Any] | None = None
         self.broadcast_thread = None
         self.is_running = False
         # Guards `active_connections` since the broadcast worker thread also
@@ -202,6 +207,7 @@ class ConnectionManager:
         if self.is_running:
             return
 
+        self._latest_joint_frame = None
         self.is_running = True
         self.broadcast_thread = threading.Thread(target=self._broadcast_worker, daemon=True)
         self.broadcast_thread.start()
@@ -225,8 +231,18 @@ class ConnectionManager:
         try:
             while self.is_running:
                 try:
-                    # Get data from queue with timeout
-                    data = self.broadcast_queue.get(timeout=0.1)
+                    # Send the freshest joint frame first (latest-wins slot).
+                    # A frame published between the read and the reset below is
+                    # dropped; the next one is ~33ms away and supersedes it.
+                    frame = self._latest_joint_frame
+                    if frame is not None:
+                        self._latest_joint_frame = None
+                        if self.active_connections:
+                            loop.run_until_complete(self._send_to_all_connections(frame))
+
+                    # Get data from queue with a short timeout so joint frames
+                    # are polled frequently enough to stay real-time.
+                    data = self.broadcast_queue.get(timeout=0.02)
                     if data is None:  # Poison pill to stop
                         break
 
@@ -263,6 +279,11 @@ class ConnectionManager:
     def broadcast_joint_data_sync(self, data: dict[str, Any]):
         """Thread-safe method to queue data for broadcasting"""
         if self.is_running and self.active_connections:
+            if isinstance(data, dict) and data.get("type") == "joint_update":
+                # Replace any unsent frame instead of queueing: only the most
+                # recent robot pose is worth sending.
+                self._latest_joint_frame = data
+                return
             try:
                 self.broadcast_queue.put_nowait(data)
             except queue.Full:

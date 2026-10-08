@@ -203,7 +203,7 @@ def handle_start_teleoperation(request: TeleoperateRequest, websocket_manager=No
             logger.info("Starting teleoperation loop...")
             try:
                 last_broadcast_time = 0
-                broadcast_interval = 0.05  # 20 FPS
+                broadcast_interval = 1 / 30  # 30 FPS
 
                 while teleoperation_active:
                     action = teleop_device.get_action()

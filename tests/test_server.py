@@ -315,3 +315,22 @@ def test_datasets_default_scope_uses_merged_listing(client, monkeypatch) -> None
     resp = client.get("/datasets")
     assert resp.status_code == 200
     assert resp.json() == merged
+
+
+def test_joint_frames_keep_only_the_latest_and_reset_on_restart() -> None:
+    from lelab.server import ConnectionManager
+
+    mgr = ConnectionManager()
+    mgr.is_running = True
+    mgr.active_connections.append(MagicMock())
+    mgr.broadcast_joint_data_sync({"type": "joint_update", "timestamp": 1})
+    mgr.broadcast_joint_data_sync({"type": "joint_update", "timestamp": 2})
+    assert mgr._latest_joint_frame["timestamp"] == 2
+    assert mgr.broadcast_queue.empty()
+
+    mgr.is_running = False
+    mgr.start_broadcast_thread()
+    try:
+        assert mgr._latest_joint_frame is None
+    finally:
+        mgr.stop_broadcast_thread()
