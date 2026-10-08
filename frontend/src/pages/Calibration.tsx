@@ -705,7 +705,11 @@ const Calibration = () => {
                         <ChevronRight className="w-3.5 h-3.5 transition-transform group-data-[state=open]:rotate-90" />
                         Advanced
                       </CollapsibleTrigger>
-                      <CollapsibleContent className="pt-2">
+                      <CollapsibleContent className="pt-2 space-y-2">
+                        <p className="text-xs text-slate-400">
+                          Links a calibration file already on this computer to
+                          this arm, so you do not have to calibrate again.
+                        </p>
                         <Select
                           value={
                             robot && existingConfigs.includes(robot[configField])
@@ -716,10 +720,10 @@ const Calibration = () => {
                           disabled={!robotName}
                         >
                           <SelectTrigger
-                            aria-label="Use an existing calibration file"
+                            aria-label="Select an existing calibration file"
                             className="bg-slate-700 border-slate-600 text-white rounded-md"
                           >
-                            <SelectValue placeholder="…or use an existing calibration file" />
+                            <SelectValue placeholder="Select an existing calibration file" />
                           </SelectTrigger>
                           <SelectContent className="bg-slate-800 border-slate-700 text-white">
                             {existingConfigs.map((file) => (
